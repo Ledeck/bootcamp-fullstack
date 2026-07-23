@@ -1,5 +1,7 @@
 # 📘 BOOTCAMP PERSONAL — SEMANA 02 (v2)
+
 ## JAVASCRIPT FUNDAMENTALS II
+
 ### Bucles · Funciones · Scope · Primeros Algoritmos Reales
 
 ---
@@ -49,6 +51,7 @@ No buscas recursos extra. No abres otros tutoriales. Solo este archivo.
 ## 🗓 DÍA 1 — BUCLES: HACER LO MISMO MIL VECES SIN REPETIRTE
 
 ### 🎯 Objetivo del día
+
 Entender por qué existen los bucles y cómo le dices a JavaScript que repita algo.
 
 ---
@@ -56,11 +59,13 @@ Entender por qué existen los bucles y cómo le dices a JavaScript que repita al
 ### 📚 Estudio
 
 **Ir a:**
+
 ```
 https://javascript.info/while-for
 ```
 
 **Leer exactamente:**
+
 - La sección `while`
 - La sección `do...while`
 - La sección `for`
@@ -82,18 +87,18 @@ En React, casi nunca escribirás un bucle `for` explícito como el de hoy. Pero 
 ```javascript
 // Lo que harás HOY (Mes 1):
 for (let i = 1; i <= 10; i++) {
-    console.log(i)
+  console.log(i);
 }
 
 // Lo que harás en Next.js (Mes 4-5), mismo concepto distinto método:
 function ListaProductos({ productos }) {
-    return (
-        <ul>
-            {productos.map((producto) => (
-                <li key={producto.id}>{producto.nombre}</li>
-            ))}
-        </ul>
-    )
+  return (
+    <ul>
+      {productos.map((producto) => (
+        <li key={producto.id}>{producto.nombre}</li>
+      ))}
+    </ul>
+  );
 }
 ```
 
@@ -121,11 +126,13 @@ Escribe un bucle `for` que muestre en consola los números del 1 al 10.
 <summary>💡 Pista 1</summary>
 
 Un bucle `for` tiene tres partes:
+
 ```javascript
 for (inicio; condición; incremento) {
-    // lo que se repite
+  // lo que se repite
 }
 ```
+
 ¿Qué valor tiene el inicio? ¿Cuándo para? ¿Cómo avanza?
 
 </details>
@@ -135,9 +142,10 @@ for (inicio; condición; incremento) {
 
 ```javascript
 for (let i = 1; i <= 10; i++) {
-    // aquí va lo que quieres mostrar
+  // aquí va lo que quieres mostrar
 }
 ```
+
 `i++` significa "aumenta i en 1 cada vez".
 
 </details>
@@ -215,36 +223,39 @@ Si la respuesta es sí, lo muestras. Si no, lo ignoras.
 ### 💼 Código real vs código de bootcamp
 
 **Lo que escribiste hoy (código de bootcamp):**
+
 ```javascript
 for (let i = 1; i <= 20; i++) {
-    if (i % 2 === 0) {
-        console.log(i)
-    }
+  if (i % 2 === 0) {
+    console.log(i);
+  }
 }
 ```
 
 **Cómo se vería en un proyecto profesional:**
+
 ```javascript
-const MAX_NUMERO = 20
+const MAX_NUMERO = 20;
 
 function esPar(numero) {
-    return numero % 2 === 0
+  return numero % 2 === 0;
 }
 
 function obtenerNumerosPares(limite) {
-    const pares = []
-    for (let i = 1; i <= limite; i++) {
-        if (esPar(i)) {
-            pares.push(i)
-        }
+  const pares = [];
+  for (let i = 1; i <= limite; i++) {
+    if (esPar(i)) {
+      pares.push(i);
     }
-    return pares
+  }
+  return pares;
 }
 
-console.log(obtenerNumerosPares(MAX_NUMERO))
+console.log(obtenerNumerosPares(MAX_NUMERO));
 ```
 
 **¿Por qué la versión profesional es "mejor"?**
+
 - `esPar()` es una función con nombre — cualquiera que lea `if (esPar(i))` entiende la intención sin pensar
 - `MAX_NUMERO` en mayúsculas es una **constante** — convención para "este valor no debería cambiar durante la ejecución"
 - La función `obtenerNumerosPares` **retorna** un array en vez de solo mostrar en consola — esto la hace **reutilizable**: puedes usar el resultado en otro lado, no solo verlo
@@ -258,13 +269,13 @@ console.log(obtenerNumerosPares(MAX_NUMERO))
 ```javascript
 // ❌ Error clásico: bucle infinito
 for (let i = 1; i >= 1; i++) {
-    console.log(i)
+  console.log(i);
 }
 // La condición NUNCA se vuelve false — el programa se cuelga
 
 // ✅ Correcto: la condición debe volverse false en algún momento
 for (let i = 1; i <= 10; i++) {
-    console.log(i)
+  console.log(i);
 }
 ```
 
@@ -276,6 +287,7 @@ for (let i = 1; i <= 10; i++) {
 ### 📓 Registro Día 1
 
 Crea `DIA_01_NOTAS.md` y responde:
+
 1. ¿Para qué sirve un bucle? Explícalo como si le hablaras a alguien de 12 años.
 2. ¿Cuál es la diferencia entre `while` y `for`? ¿Cuándo usarías cada uno?
 3. ¿Qué es un bucle infinito y cómo lo evitas?
@@ -285,6 +297,7 @@ Crea `DIA_01_NOTAS.md` y responde:
 ## 🗓 DÍA 2 — FUNCIONES: ACCIONES CON NOMBRE
 
 ### 🎯 Objetivo del día
+
 Entender por qué las funciones son la herramienta más poderosa de la programación y cómo crearlas.
 
 ---
@@ -292,6 +305,7 @@ Entender por qué las funciones son la herramienta más poderosa de la programac
 ### 📚 Estudio
 
 **Ir a:**
+
 ```
 https://javascript.info/function-basics
 ```
@@ -318,22 +332,21 @@ Esto es probablemente la conexión más importante de toda la semana:
 ```javascript
 // Lo que harás HOY (Mes 1):
 function calcularDescuento(precio, porcentaje) {
-    return precio - (precio * porcentaje / 100)
+  return precio - (precio * porcentaje) / 100;
 }
 
-console.log(calcularDescuento(10000, 20)) // 8000
-
+console.log(calcularDescuento(10000, 20)); // 8000
 
 // Lo que harás en Next.js (Mes 4+) — un "componente" ES una función:
 function TarjetaProducto({ nombre, precio, descuento }) {
-    const precioFinal = calcularDescuento(precio, descuento)
+  const precioFinal = calcularDescuento(precio, descuento);
 
-    return (
-        <div className="border p-4 rounded">
-            <h2>{nombre}</h2>
-            <p>Precio final: ${precioFinal}</p>
-        </div>
-    )
+  return (
+    <div className="border p-4 rounded">
+      <h2>{nombre}</h2>
+      <p>Precio final: ${precioFinal}</p>
+    </div>
+  );
 }
 ```
 
@@ -348,6 +361,7 @@ function TarjetaProducto({ nombre, precio, descuento }) {
 **Crear el archivo:** `dia02_ejercicio01.js`
 
 Crea una función llamada `saludar` que reciba un nombre y muestre en consola:
+
 ```
 Hola, Oscar. Bienvenido al bootcamp.
 ```
@@ -359,11 +373,11 @@ Llámala 3 veces con nombres diferentes.
 
 ```javascript
 function nombreDeLaFuncion(parametro) {
-    // lo que hace la función
+  // lo que hace la función
 }
 
 // Llamarla:
-nombreDeLaFuncion("valor")
+nombreDeLaFuncion("valor");
 ```
 
 </details>
@@ -372,8 +386,9 @@ nombreDeLaFuncion("valor")
 <summary>💡 Pista 2</summary>
 
 Recuerda los template literals de la Semana 1:
+
 ```javascript
-console.log(`Hola, ${nombre}. Bienvenido al bootcamp.`)
+console.log(`Hola, ${nombre}. Bienvenido al bootcamp.`);
 ```
 
 </details>
@@ -385,6 +400,7 @@ console.log(`Hola, ${nombre}. Bienvenido al bootcamp.`)
 **Crear el archivo:** `dia02_ejercicio02.js`
 
 Crea una función `calcularDescuento` que reciba:
+
 - Un precio original
 - Un porcentaje de descuento
 
@@ -392,8 +408,8 @@ Y **retorne** el precio final con el descuento aplicado.
 
 ```javascript
 // Ejemplo de uso:
-let precioFinal = calcularDescuento(10000, 20)
-console.log(precioFinal) // 8000
+let precioFinal = calcularDescuento(10000, 20);
+console.log(precioFinal); // 8000
 ```
 
 <details>
@@ -431,6 +447,7 @@ function calcularDescuento(precio, porcentaje) {
 **Crear el archivo:** `dia02_ejercicio03.js`
 
 Crea una función `clasificarEdad` que reciba una edad y **retorne** la categoría correspondiente:
+
 - Menor de 12 → `"Niño"`
 - 12 a 17 → `"Joven"`
 - 18 a 64 → `"Adulto"`
@@ -438,10 +455,10 @@ Crea una función `clasificarEdad` que reciba una edad y **retorne** la categor�
 
 ```javascript
 // Ejemplo de uso:
-console.log(clasificarEdad(8))   // "Niño"
-console.log(clasificarEdad(15))  // "Joven"
-console.log(clasificarEdad(30))  // "Adulto"
-console.log(clasificarEdad(70))  // "Senior"
+console.log(clasificarEdad(8)); // "Niño"
+console.log(clasificarEdad(15)); // "Joven"
+console.log(clasificarEdad(30)); // "Adulto"
+console.log(clasificarEdad(70)); // "Senior"
 ```
 
 <details>
@@ -457,14 +474,16 @@ Cada rama del `if` puede tener su propio `return`.
 ### 💼 Código real vs código de bootcamp
 
 **Lo que escribiste hoy (código de bootcamp):**
+
 ```javascript
 function calcularDescuento(precio, porcentaje) {
-    let resultado = precio - (precio * porcentaje / 100)
-    return resultado
+  let resultado = precio - (precio * porcentaje) / 100;
+  return resultado;
 }
 ```
 
 **Cómo se vería en un proyecto profesional:**
+
 ```javascript
 /**
  * Calcula el precio final aplicando un porcentaje de descuento.
@@ -473,18 +492,19 @@ function calcularDescuento(precio, porcentaje) {
  * @returns {number} Precio final con descuento aplicado
  */
 function calcularPrecioConDescuento(precioOriginal, porcentajeDescuento) {
-    if (porcentajeDescuento < 0 || porcentajeDescuento > 100) {
-        throw new Error("El porcentaje debe estar entre 0 y 100")
-    }
+  if (porcentajeDescuento < 0 || porcentajeDescuento > 100) {
+    throw new Error("El porcentaje debe estar entre 0 y 100");
+  }
 
-    const montoDescuento = precioOriginal * (porcentajeDescuento / 100)
-    return precioOriginal - montoDescuento
+  const montoDescuento = precioOriginal * (porcentajeDescuento / 100);
+  return precioOriginal - montoDescuento;
 }
 ```
 
 **¿Qué cambió y por qué?**
+
 - **El nombre `calcularPrecioConDescuento`** es más largo pero más específico — en un proyecto con 200 funciones, "calcularDescuento" podría confundirse con otra cosa
-- **El comentario `/** ... */`** se llama JSDoc — herramientas como VS Code/Cursor lo leen y te muestran ayuda automática cuando usas la función
+- **El comentario `/** ... \*/`\*\* se llama JSDoc — herramientas como VS Code/Cursor lo leen y te muestran ayuda automática cuando usas la función
 - **La validación `if (porcentajeDescuento < 0...)`** — código profesional asume que algo puede salir mal (alguien pasa -50% por error) y lo maneja explícitamente con `throw new Error()`
 - **`const` en vez de `let`** para `montoDescuento` — nunca se reasigna, así que `const` comunica esa intención
 
@@ -497,27 +517,27 @@ function calcularPrecioConDescuento(precioOriginal, porcentajeDescuento) {
 ```javascript
 // ❌ Error: olvidar el return
 function calcularDescuento(precio, porcentaje) {
-    let resultado = precio - (precio * porcentaje / 100)
-    // Sin return → la función devuelve undefined
+  let resultado = precio - (precio * porcentaje) / 100;
+  // Sin return → la función devuelve undefined
 }
 
 // ✅ Correcto:
 function calcularDescuento(precio, porcentaje) {
-    let resultado = precio - (precio * porcentaje / 100)
-    return resultado
+  let resultado = precio - (precio * porcentaje) / 100;
+  return resultado;
 }
 
 // ❌ Error: confundir console.log con return
 function sumar(a, b) {
-    console.log(a + b)  // muestra el resultado pero no lo devuelve
+  console.log(a + b); // muestra el resultado pero no lo devuelve
 }
-let total = sumar(3, 4) // total es undefined, no 7
+let total = sumar(3, 4); // total es undefined, no 7
 
 // ✅ Correcto:
 function sumar(a, b) {
-    return a + b  // devuelve el resultado
+  return a + b; // devuelve el resultado
 }
-let total = sumar(3, 4) // total es 7
+let total = sumar(3, 4); // total es 7
 ```
 
 ---
@@ -525,6 +545,7 @@ let total = sumar(3, 4) // total es 7
 ### 📓 Registro Día 2
 
 Crea `DIA_02_NOTAS.md` y responde:
+
 1. ¿Cuál es la diferencia entre `console.log` dentro de una función y `return`?
 2. ¿Por qué es mejor que una función `return` un valor en vez de mostrarlo directamente?
 3. ¿Qué pasa si llamas una función sin pasar todos sus parámetros?
@@ -534,6 +555,7 @@ Crea `DIA_02_NOTAS.md` y responde:
 ## 🗓 DÍA 3 — SCOPE: DÓNDE VIVEN LAS VARIABLES
 
 ### 🎯 Objetivo del día
+
 Entender por qué algunas variables son accesibles desde cualquier lugar y otras no.
 
 ---
@@ -541,11 +563,13 @@ Entender por qué algunas variables son accesibles desde cualquier lugar y otras
 ### 📚 Estudio
 
 **Ir a:**
+
 ```
 https://javascript.info/variable-scope
 ```
 
 **Leer exactamente:**
+
 - La sección `Code blocks`
 - La sección `Nested functions`
 
@@ -567,23 +591,22 @@ El scope es la razón por la que React tiene una regla muy famosa llamada **"reg
 
 ```javascript
 // Scope que ya entiendes HOY:
-let contador = 0  // scope "global" de este archivo
+let contador = 0; // scope "global" de este archivo
 
 function aumentar() {
-    contador = contador + 1  // accede a la variable de afuera ✅
+  contador = contador + 1; // accede a la variable de afuera ✅
 }
-
 
 // En React (Mes 4+), cada COMPONENTE tiene su propio scope,
 // como si fuera su propia "habitación":
 function ContadorA() {
-    let cuenta = 0  // esta variable vive SOLO dentro de ContadorA
-    // ...
+  let cuenta = 0; // esta variable vive SOLO dentro de ContadorA
+  // ...
 }
 
 function ContadorB() {
-    let cuenta = 0  // esta es OTRA variable, totalmente separada de la de ContadorA
-    // ...
+  let cuenta = 0; // esta es OTRA variable, totalmente separada de la de ContadorA
+  // ...
 }
 ```
 
@@ -601,17 +624,17 @@ Antes de ejecutar el código, **predice** qué mostrará cada `console.log`.
 Luego ejecútalo y verifica si tenías razón.
 
 ```javascript
-let mensaje = "Soy global"
+let mensaje = "Soy global";
 
 function mostrarMensaje() {
-    let mensajeLocal = "Soy local"
-    console.log(mensaje)       // ¿Qué muestra? → predice aquí
-    console.log(mensajeLocal)  // ¿Qué muestra? → predice aquí
+  let mensajeLocal = "Soy local";
+  console.log(mensaje); // ¿Qué muestra? → predice aquí
+  console.log(mensajeLocal); // ¿Qué muestra? → predice aquí
 }
 
-mostrarMensaje()
-console.log(mensaje)       // ¿Qué muestra? → predice aquí
-console.log(mensajeLocal)  // ¿Qué muestra? → predice aquí
+mostrarMensaje();
+console.log(mensaje); // ¿Qué muestra? → predice aquí
+console.log(mensajeLocal); // ¿Qué muestra? → predice aquí
 ```
 
 ---
@@ -621,23 +644,23 @@ console.log(mensajeLocal)  // ¿Qué muestra? → predice aquí
 **Crear el archivo:** `dia03_ejercicio02.js`
 
 ```javascript
-let contador = 0
+let contador = 0;
 
 function aumentar() {
-    contador = contador + 1
+  contador = contador + 1;
 }
 
 function reiniciar() {
-    contador = 0
+  contador = 0;
 }
 
-aumentar()
-aumentar()
-aumentar()
-console.log(contador) // ¿Qué muestra? → predice
+aumentar();
+aumentar();
+aumentar();
+console.log(contador); // ¿Qué muestra? → predice
 
-reiniciar()
-console.log(contador) // ¿Qué muestra? → predice
+reiniciar();
+console.log(contador); // ¿Qué muestra? → predice
 ```
 
 Luego responde: ¿Por qué las funciones pueden modificar `contador` si está fuera de ellas?
@@ -647,36 +670,37 @@ Luego responde: ¿Por qué las funciones pueden modificar `contador` si está fu
 ### 💼 Código real vs código de bootcamp
 
 **Lo que escribiste hoy (código de bootcamp):**
+
 ```javascript
-let contador = 0
+let contador = 0;
 
 function aumentar() {
-    contador = contador + 1
+  contador = contador + 1;
 }
 ```
 
 **Por qué este patrón se evita en proyectos profesionales:**
+
 ```javascript
 // ❌ Esto causa bugs difíciles de rastrear en proyectos grandes
-let contador = 0
+let contador = 0;
 
 function aumentar() {
-    contador = contador + 1  // ¿quién más modifica "contador"? difícil saberlo
+  contador = contador + 1; // ¿quién más modifica "contador"? difícil saberlo
 }
 
 function otraFuncionLejana() {
-    contador = -999  // sorpresa! esto rompe todo y es difícil de encontrar
+  contador = -999; // sorpresa! esto rompe todo y es difícil de encontrar
 }
-
 
 // ✅ Patrón profesional: la función recibe y retorna, no "toca" variables externas
 function aumentar(valorActual) {
-    return valorActual + 1
+  return valorActual + 1;
 }
 
-let contador = 0
-contador = aumentar(contador) // contador = 1
-contador = aumentar(contador) // contador = 2
+let contador = 0;
+contador = aumentar(contador); // contador = 1
+contador = aumentar(contador); // contador = 2
 ```
 
 **¿Por qué importa esto?**
@@ -694,18 +718,18 @@ La versión profesional — "la función recibe datos y retorna datos nuevos, si
 ```javascript
 // ❌ Error clásico de scope
 function crearSaludo() {
-    let saludo = "Hola"
+  let saludo = "Hola";
 }
-crearSaludo()
-console.log(saludo) // ReferenceError: saludo is not defined
+crearSaludo();
+console.log(saludo); // ReferenceError: saludo is not defined
 
 // ✅ Correcto: usar return para sacar el valor
 function crearSaludo() {
-    let saludo = "Hola"
-    return saludo
+  let saludo = "Hola";
+  return saludo;
 }
-let miSaludo = crearSaludo()
-console.log(miSaludo) // "Hola"
+let miSaludo = crearSaludo();
+console.log(miSaludo); // "Hola"
 ```
 
 ---
@@ -713,6 +737,7 @@ console.log(miSaludo) // "Hola"
 ### 📓 Registro Día 3
 
 Crea `DIA_03_NOTAS.md` y responde:
+
 1. Define scope con tus propias palabras.
 2. ¿Cuál es la diferencia entre scope global y scope local?
 3. Explica la analogía de las habitaciones de una casa con el scope.
@@ -722,6 +747,7 @@ Crea `DIA_03_NOTAS.md` y responde:
 ## 🗓 DÍA 4 — COMBINANDO TODO: BUCLES + FUNCIONES
 
 ### 🎯 Objetivo del día
+
 Usar bucles dentro de funciones y funciones dentro de bucles para resolver problemas reales.
 
 ---
@@ -729,6 +755,7 @@ Usar bucles dentro de funciones y funciones dentro de bucles para resolver probl
 ### 📚 Estudio
 
 **Ir a:**
+
 ```
 https://javascript.info/function-basics
 ```
@@ -746,19 +773,23 @@ Hoy combinas dos piezas. En Next.js esta combinación aparece constantemente cua
 ```javascript
 // Patrón de HOY: función que usa un bucle internamente
 function validarContrasena(contrasena) {
-    return contrasena.length >= 8
+  return contrasena.length >= 8;
 }
 
 // Patrón en Next.js (Mes 5+): función que procesa una LISTA completa
 // antes de mostrarla — usando el mismo "function + repetición" pero con .map()
 function ListaUsuarios({ usuarios }) {
-    const usuariosValidos = usuarios.filter(u => validarContrasena(u.contrasena))
+  const usuariosValidos = usuarios.filter((u) =>
+    validarContrasena(u.contrasena),
+  );
 
-    return (
-        <ul>
-            {usuariosValidos.map(u => <li key={u.id}>{u.nombre}</li>)}
-        </ul>
-    )
+  return (
+    <ul>
+      {usuariosValidos.map((u) => (
+        <li key={u.id}>{u.nombre}</li>
+      ))}
+    </ul>
+  );
 }
 ```
 
@@ -795,9 +826,9 @@ En cada iteración multiplicas el número recibido por `i`.
 
 ```javascript
 function tablaMultiplicar(numero) {
-    for (let i = 1; i <= 10; i++) {
-        // aquí calculas y muestras cada línea
-    }
+  for (let i = 1; i <= 10; i++) {
+    // aquí calculas y muestras cada línea
+  }
 }
 ```
 
@@ -812,9 +843,9 @@ function tablaMultiplicar(numero) {
 Crea una función `validarContrasena` que reciba una contraseña (string) y retorne `true` si tiene **8 o más caracteres**, o `false` si tiene menos.
 
 ```javascript
-console.log(validarContrasena("abc"))        // false
-console.log(validarContrasena("abcdefgh"))   // true
-console.log(validarContrasena("12345678"))   // true
+console.log(validarContrasena("abc")); // false
+console.log(validarContrasena("abcdefgh")); // true
+console.log(validarContrasena("12345678")); // true
 ```
 
 > 💡 Pista: Las strings tienen una propiedad `.length` que te dice cuántos caracteres tienen.
@@ -827,10 +858,12 @@ console.log(validarContrasena("12345678"))   // true
 **Crear el archivo:** `dia04_ejercicio03.js`
 
 Crea una función `generarSaludo` que reciba:
+
 - Un nombre
 - Una hora del día (número del 0 al 23)
 
 Y retorne el saludo correcto:
+
 - 0 a 11 → `"Buenos días, Oscar"`
 - 12 a 19 → `"Buenas tardes, Oscar"`
 - 20 a 23 → `"Buenas noches, Oscar"`
@@ -842,6 +875,7 @@ Luego llama la función 3 veces con horas distintas y muestra los resultados.
 ### 📓 Registro Día 4
 
 Crea `DIA_04_NOTAS.md` y responde:
+
 1. ¿Cuándo tiene sentido poner un bucle dentro de una función?
 2. ¿Cuál fue el ejercicio más difícil hoy y por qué?
 3. ¿Qué es `.length` y para qué sirve?
@@ -851,6 +885,7 @@ Crea `DIA_04_NOTAS.md` y responde:
 ## 🗓 DÍA 5 — PRÁCTICA Y RESOLUCIÓN DE PROBLEMAS
 
 ### 🎯 Objetivo del día
+
 Resolver problemas reales usando todo lo aprendido esta semana.
 
 ---
@@ -858,21 +893,25 @@ Resolver problemas reales usando todo lo aprendido esta semana.
 ### 📚 Ejercicios de javascript.info
 
 **Ir a:**
+
 ```
 https://javascript.info/while-for#tasks
 ```
 
 **Resolver:**
+
 - Last loop value
 - Which values does the while show?
 - Rewrite with for
 
 Luego ir a:
+
 ```
 https://javascript.info/function-basics#tasks
 ```
 
 **Resolver:**
+
 - Is "else" required?
 - Rewrite the function using '?' or '||'
 - Function min(a, b)
@@ -889,17 +928,18 @@ https://javascript.info/function-basics#tasks
 ### 📓 Registro Día 5
 
 Crea `DIA_05_NOTAS.md`:
+
 1. ¿Cuál ejercicio de javascript.info te costó más?
 2. ¿Qué aprendiste de ese ejercicio que no sabías antes?
 3. Escribe con tus palabras qué hace esta función:
 
 ```javascript
 function pow(x, n) {
-    let resultado = 1
-    for (let i = 0; i < n; i++) {
-        resultado *= x
-    }
-    return resultado
+  let resultado = 1;
+  for (let i = 0; i < n; i++) {
+    resultado *= x;
+  }
+  return resultado;
 }
 ```
 
@@ -937,6 +977,7 @@ cotizador_terramater.js
 #### 📋 Requisitos del sistema
 
 **Precios base por persona:**
+
 ```
 Trekking  → $45.000 CLP
 Kayak     → $65.000 CLP
@@ -944,6 +985,7 @@ Escalada  → $80.000 CLP
 ```
 
 **Reglas de descuento:**
+
 ```
 Grupos de 5 a 9 personas  → 10% de descuento
 Grupos de 10 o más        → 20% de descuento
@@ -960,6 +1002,7 @@ Menos de 5 personas       → sin descuento
 6. **Mostrar** el resumen de la cotización
 
 **Formato del resumen final:**
+
 ```
 === TERRAMATER EXPEDICIONES ===
 === COTIZACIÓN OFICIAL ===
@@ -985,16 +1028,17 @@ Válido por 7 días.
 
 ```javascript
 // Retorna el precio por persona según la actividad
-function obtenerPrecio(actividad) { }
+function obtenerPrecio(actividad) {}
 
 // Retorna el porcentaje de descuento según el número de personas
-function obtenerDescuento(personas) { }
+function obtenerDescuento(personas) {}
 
 // Retorna el total calculado con descuento incluido
-function calcularTotal(precioBase, personas, descuento) { }
+function calcularTotal(precioBase, personas, descuento) {}
 ```
 
 **Restricciones:**
+
 - ✅ Usar funciones con `return`
 - ✅ Usar `if`, `else if`, `else`
 - ✅ Usar template literals
@@ -1013,15 +1057,15 @@ function calcularTotal(precioBase, personas, descuento) { }
 
 ```javascript
 function obtenerPrecio(actividad) {
-    if (actividad.toLowerCase() === "trekking") {
-        return 45000
-    } else if (actividad.toLowerCase() === "kayak") {
-        return 65000
-    } else if (actividad.toLowerCase() === "escalada") {
-        return 80000
-    } else {
-        return 0 // actividad no válida
-    }
+  if (actividad.toLowerCase() === "trekking") {
+    return 45000;
+  } else if (actividad.toLowerCase() === "kayak") {
+    return 65000;
+  } else if (actividad.toLowerCase() === "escalada") {
+    return 80000;
+  } else {
+    return 0; // actividad no válida
+  }
 }
 ```
 
@@ -1039,10 +1083,12 @@ Luego en `calcularTotal` usas ese porcentaje para calcular el monto a descontar.
 <summary>💡 Pista 3 — ¿Cómo formatear los números con puntos de miles?</summary>
 
 JavaScript tiene un método para formatear números:
+
 ```javascript
-let numero = 468000
-console.log(numero.toLocaleString("es-CL")) // "468.000"
+let numero = 468000;
+console.log(numero.toLocaleString("es-CL")); // "468.000"
 ```
+
 Esto hace que los números se vean como precios chilenos.
 
 </details>
@@ -1051,12 +1097,13 @@ Esto hace que los números se vean como precios chilenos.
 <summary>💡 Pista 4 — ¿Cómo construir el resumen final?</summary>
 
 Construye el mensaje completo en una variable antes del `alert()`:
+
 ```javascript
 let resumen = `=== TERRAMATER EXPEDICIONES ===
 ...
 Cliente: ${nombre}
-...`
-alert(resumen)
+...`;
+alert(resumen);
 ```
 
 </details>
@@ -1076,55 +1123,60 @@ alert(resumen)
 // FUNCIONES
 
 function obtenerPrecio(actividad) {
-    let act = actividad.toLowerCase()
-    if (act === "trekking") {
-        return 45000
-    } else if (act === "kayak") {
-        return 65000
-    } else if (act === "escalada") {
-        return 80000
-    } else {
-        return 0
-    }
+  let act = actividad.toLowerCase();
+  if (act === "trekking") {
+    return 45000;
+  } else if (act === "kayak") {
+    return 65000;
+  } else if (act === "escalada") {
+    return 80000;
+  } else {
+    return 0;
+  }
 }
 
 function obtenerDescuento(personas) {
-    if (personas >= 10) {
-        return 20
-    } else if (personas >= 5) {
-        return 10
-    } else {
-        return 0
-    }
+  if (personas >= 10) {
+    return 20;
+  } else if (personas >= 5) {
+    return 10;
+  } else {
+    return 0;
+  }
 }
 
 function calcularTotal(precioPorPersona, personas, porcentajeDescuento) {
-    let subtotal = precioPorPersona * personas
-    let montoDescuento = subtotal * porcentajeDescuento / 100
-    let total = subtotal - montoDescuento
-    return total
+  let subtotal = precioPorPersona * personas;
+  let montoDescuento = (subtotal * porcentajeDescuento) / 100;
+  let total = subtotal - montoDescuento;
+  return total;
 }
 
 // PROGRAMA PRINCIPAL
 
-let nombre = prompt("Bienvenido a TerraMater Expediciones\n¿Cuál es tu nombre?")
-if (nombre === null || nombre === "") nombre = "Cliente"
+let nombre = prompt(
+  "Bienvenido a TerraMater Expediciones\n¿Cuál es tu nombre?",
+);
+if (nombre === null || nombre === "") nombre = "Cliente";
 
-let actividad = prompt("¿Qué expedición te interesa?\nTrekking / Kayak / Escalada")
-if (actividad === null) actividad = ""
+let actividad = prompt(
+  "¿Qué expedición te interesa?\nTrekking / Kayak / Escalada",
+);
+if (actividad === null) actividad = "";
 
-let personasTexto = prompt("¿Cuántas personas van?")
-let personas = Number(personasTexto)
+let personasTexto = prompt("¿Cuántas personas van?");
+let personas = Number(personasTexto);
 
-let precioPorPersona = obtenerPrecio(actividad)
-let porcentajeDescuento = obtenerDescuento(personas)
-let subtotal = precioPorPersona * personas
-let montoDescuento = subtotal * porcentajeDescuento / 100
-let total = calcularTotal(precioPorPersona, personas, porcentajeDescuento)
+let precioPorPersona = obtenerPrecio(actividad);
+let porcentajeDescuento = obtenerDescuento(personas);
+let subtotal = precioPorPersona * personas;
+let montoDescuento = (subtotal * porcentajeDescuento) / 100;
+let total = calcularTotal(precioPorPersona, personas, porcentajeDescuento);
 
-let textoDescuento = porcentajeDescuento > 0
+let textoDescuento =
+  porcentajeDescuento > 0
     ? `Descuento (${porcentajeDescuento}%): -$${montoDescuento.toLocaleString("es-CL")}\n`
-    : "Sin descuento\n"
+    : "Sin descuento\n";
 
 let resumen = `=== TERRAMATER EXPEDICIONES ===
 === COTIZACIÓN OFICIAL ===
@@ -1138,9 +1190,9 @@ ${textoDescuento}─────────────────────
 TOTAL: $${total.toLocaleString("es-CL")}
 
 Válido por 7 días.
-¡Gracias por elegir TerraMater!`
+¡Gracias por elegir TerraMater!`;
 
-alert(resumen)
+alert(resumen);
 ```
 
 </details>
@@ -1189,6 +1241,7 @@ El sistema debe analizar **5 posts de prueba** (los defines tú, hardcodeados en
 4. Si el post es **válido** o **inválido**, y por qué
 
 **Formato de salida esperado:**
+
 ```
 === ANÁLISIS DE POSTS — PocketFeed ===
 
@@ -1225,18 +1278,19 @@ Posts inválidos: 3
 
 ```javascript
 // Cuenta cuántos hashtags tiene un texto
-function contarHashtags(texto) { }
+function contarHashtags(texto) {}
 
 // Retorna un objeto-like con el resultado del análisis
 // (puedes retornar múltiples valores usando varias funciones,
 //  o concatenando un string — tu decisión)
-function analizarPost(texto) { }
+function analizarPost(texto) {}
 
 // Recorta el texto a 50 caracteres + "..." si es necesario
-function recortarTexto(texto) { }
+function recortarTexto(texto) {}
 ```
 
 **Restricciones:**
+
 - ✅ Usar funciones con `return`
 - ✅ Usar bucles `for` o `while` (por ejemplo para contar hashtags carácter por carácter)
 - ✅ Usar `if`, `else if`, `else`
@@ -1257,13 +1311,13 @@ Si el carácter actual es `"#"`, suma 1 a un contador.
 
 ```javascript
 function contarHashtags(texto) {
-    let contador = 0
-    for (let i = 0; i < texto.length; i++) {
-        if (texto[i] === "#") {
-            contador = contador + 1
-        }
+  let contador = 0;
+  for (let i = 0; i < texto.length; i++) {
+    if (texto[i] === "#") {
+      contador = contador + 1;
     }
-    return contador
+  }
+  return contador;
 }
 ```
 
@@ -1275,13 +1329,14 @@ function contarHashtags(texto) {
 <summary>💡 Pista 2 — ¿Cómo recortar el texto a 50 caracteres?</summary>
 
 Usa `.slice(0, 50)` para tomar los primeros 50 caracteres:
+
 ```javascript
 function recortarTexto(texto) {
-    if (texto.length > 50) {
-        return texto.slice(0, 50) + "..."
-    } else {
-        return texto
-    }
+  if (texto.length > 50) {
+    return texto.slice(0, 50) + "...";
+  } else {
+    return texto;
+  }
 }
 ```
 
@@ -1295,17 +1350,17 @@ luego "muy largo", luego "demasiados hashtags", y si nada de eso pasa, es válid
 
 ```javascript
 function obtenerEstado(texto, hashtags) {
-    if (texto.length === 0) {
-        return "❌ INVÁLIDO — El post no puede estar vacío"
-    } else if (texto.length > 280) {
-        let exceso = texto.length - 280
-        return `❌ INVÁLIDO — Excede el límite de caracteres por ${exceso}`
-    } else if (hashtags > 5) {
-        let exceso = hashtags - 5
-        return `❌ INVÁLIDO — Excede el límite de hashtags por ${exceso}`
-    } else {
-        return "✅ VÁLIDO"
-    }
+  if (texto.length === 0) {
+    return "❌ INVÁLIDO — El post no puede estar vacío";
+  } else if (texto.length > 280) {
+    let exceso = texto.length - 280;
+    return `❌ INVÁLIDO — Excede el límite de caracteres por ${exceso}`;
+  } else if (hashtags > 5) {
+    let exceso = hashtags - 5;
+    return `❌ INVÁLIDO — Excede el límite de hashtags por ${exceso}`;
+  } else {
+    return "✅ VÁLIDO";
+  }
 }
 ```
 
@@ -1318,15 +1373,15 @@ Crea una función que reciba el texto, llame a las otras funciones, y construya 
 
 ```javascript
 function analizarPost(texto, numeroPost) {
-    let hashtags = contarHashtags(texto)
-    let textoRecortado = recortarTexto(texto)
-    let estado = obtenerEstado(texto, hashtags)
+  let hashtags = contarHashtags(texto);
+  let textoRecortado = recortarTexto(texto);
+  let estado = obtenerEstado(texto, hashtags);
 
-    return `Post ${numeroPost}: "${textoRecortado}"
+  return `Post ${numeroPost}: "${textoRecortado}"
 Caracteres: ${texto.length}/280
 Hashtags: ${hashtags}/5
 Estado: ${estado}
-`
+`;
 }
 ```
 
@@ -1346,101 +1401,125 @@ Luego llamas `analizarPost(post1, 1)`, `analizarPost(post2, 2)`, etc., y muestra
 ```javascript
 // === ANALIZADOR DE POSTS — PocketFeed ===
 
-const MAX_CARACTERES = 280
-const MAX_HASHTAGS = 5
+const MAX_CARACTERES = 280;
+const MAX_HASHTAGS = 5;
 
 // Cuenta hashtags recorriendo carácter por carácter
 function contarHashtags(texto) {
-    let contador = 0
-    for (let i = 0; i < texto.length; i++) {
-        if (texto[i] === "#") {
-            contador = contador + 1
-        }
+  let contador = 0;
+  for (let i = 0; i < texto.length; i++) {
+    if (texto[i] === "#") {
+      contador = contador + 1;
     }
-    return contador
+  }
+  return contador;
 }
 
 // Recorta el texto si es muy largo
 function recortarTexto(texto) {
-    if (texto.length > 50) {
-        return texto.slice(0, 50) + "..."
-    } else {
-        return texto
-    }
+  if (texto.length > 50) {
+    return texto.slice(0, 50) + "...";
+  } else {
+    return texto;
+  }
 }
 
 // Determina el estado del post
 function obtenerEstado(texto, hashtags) {
-    if (texto.length === 0) {
-        return "❌ INVÁLIDO — El post no puede estar vacío"
-    } else if (texto.length > MAX_CARACTERES) {
-        let exceso = texto.length - MAX_CARACTERES
-        return `❌ INVÁLIDO — Excede el límite de caracteres por ${exceso}`
-    } else if (hashtags > MAX_HASHTAGS) {
-        let exceso = hashtags - MAX_HASHTAGS
-        return `❌ INVÁLIDO — Excede el límite de hashtags por ${exceso}`
-    } else {
-        return "✅ VÁLIDO"
-    }
+  if (texto.length === 0) {
+    return "❌ INVÁLIDO — El post no puede estar vacío";
+  } else if (texto.length > MAX_CARACTERES) {
+    let exceso = texto.length - MAX_CARACTERES;
+    return `❌ INVÁLIDO — Excede el límite de caracteres por ${exceso}`;
+  } else if (hashtags > MAX_HASHTAGS) {
+    let exceso = hashtags - MAX_HASHTAGS;
+    return `❌ INVÁLIDO — Excede el límite de hashtags por ${exceso}`;
+  } else {
+    return "✅ VÁLIDO";
+  }
 }
 
 // Verifica si un post es válido (true/false) — útil para el resumen
 function esValido(texto, hashtags) {
-    return obtenerEstado(texto, hashtags) === "✅ VÁLIDO"
+  return obtenerEstado(texto, hashtags) === "✅ VÁLIDO";
 }
 
 // Construye el bloque de análisis de un post
 function analizarPost(texto, numeroPost) {
-    let hashtags = contarHashtags(texto)
-    let textoRecortado = recortarTexto(texto)
-    let estado = obtenerEstado(texto, hashtags)
+  let hashtags = contarHashtags(texto);
+  let textoRecortado = recortarTexto(texto);
+  let estado = obtenerEstado(texto, hashtags);
 
-    return `Post ${numeroPost}: "${textoRecortado}"
+  return `Post ${numeroPost}: "${textoRecortado}"
 Caracteres: ${texto.length}/${MAX_CARACTERES}
 Hashtags: ${hashtags}/${MAX_HASHTAGS}
 Estado: ${estado}
-`
+`;
 }
 
 // === LOS 5 POSTS DE PRUEBA ===
 
-let post1 = "Hoy aprendí sobre bucles y funciones en JavaScript #codigo #aprendizaje"
+let post1 =
+  "Hoy aprendí sobre bucles y funciones en JavaScript #codigo #aprendizaje";
 
-let post2 = ""
+let post2 = "";
 
-let post3 = "Este es un post extremadamente largo que repite la misma idea una y otra vez para alcanzar más de 280 caracteres y así poder probar correctamente la validación de longitud máxima del sistema PocketFeed, que es exactamente lo que estamos verificando aquí mismo en este momento ahora."
+let post3 =
+  "Este es un post extremadamente largo que repite la misma idea una y otra vez para alcanzar más de 280 caracteres y así poder probar correctamente la validación de longitud máxima del sistema PocketFeed, que es exactamente lo que estamos verificando aquí mismo en este momento ahora.";
 
-let post4 = "Probando muchos hashtags #uno #dos #tres #cuatro #cinco #seis #siete"
+let post4 =
+  "Probando muchos hashtags #uno #dos #tres #cuatro #cinco #seis #siete";
 
-let post5 = "Buenas tardes a todos, espero que estén teniendo un excelente día de programación #JavaScript"
+let post5 =
+  "Buenas tardes a todos, espero que estén teniendo un excelente día de programación #JavaScript";
 
 // === GENERAR REPORTE ===
 
 let reporte = `=== ANÁLISIS DE POSTS — PocketFeed ===
 
-`
-reporte += analizarPost(post1, 1) + "\n"
-reporte += analizarPost(post2, 2) + "\n"
-reporte += analizarPost(post3, 3) + "\n"
-reporte += analizarPost(post4, 4) + "\n"
-reporte += analizarPost(post5, 5) + "\n"
+`;
+reporte += analizarPost(post1, 1) + "\n";
+reporte += analizarPost(post2, 2) + "\n";
+reporte += analizarPost(post3, 3) + "\n";
+reporte += analizarPost(post4, 4) + "\n";
+reporte += analizarPost(post5, 5) + "\n";
 
 // === RESUMEN ===
 
-let validos = 0
-let invalidos = 0
+let validos = 0;
+let invalidos = 0;
 
-if (esValido(post1, contarHashtags(post1))) { validos++ } else { invalidos++ }
-if (esValido(post2, contarHashtags(post2))) { validos++ } else { invalidos++ }
-if (esValido(post3, contarHashtags(post3))) { validos++ } else { invalidos++ }
-if (esValido(post4, contarHashtags(post4))) { validos++ } else { invalidos++ }
-if (esValido(post5, contarHashtags(post5))) { validos++ } else { invalidos++ }
+if (esValido(post1, contarHashtags(post1))) {
+  validos++;
+} else {
+  invalidos++;
+}
+if (esValido(post2, contarHashtags(post2))) {
+  validos++;
+} else {
+  invalidos++;
+}
+if (esValido(post3, contarHashtags(post3))) {
+  validos++;
+} else {
+  invalidos++;
+}
+if (esValido(post4, contarHashtags(post4))) {
+  validos++;
+} else {
+  invalidos++;
+}
+if (esValido(post5, contarHashtags(post5))) {
+  validos++;
+} else {
+  invalidos++;
+}
 
 reporte += `=== RESUMEN ===
 Posts válidos: ${validos}
-Posts inválidos: ${invalidos}`
+Posts inválidos: ${invalidos}`;
 
-console.log(reporte)
+console.log(reporte);
 ```
 
 </details>
@@ -1450,6 +1529,7 @@ console.log(reporte)
 ### ✅ CRITERIOS DE APROBACIÓN — AMBOS PROYECTOS
 
 **Proyecto A — Cotizador TerraMater:**
+
 - [ ] El programa corre sin errores
 - [ ] Creaste al menos 3 funciones separadas
 - [ ] Cada función tiene `return`
@@ -1457,12 +1537,14 @@ console.log(reporte)
 - [ ] El resumen muestra toda la información con formato chileno
 
 **Proyecto B — Analizador PocketFeed:**
+
 - [ ] El programa corre sin errores
 - [ ] `contarHashtags` cuenta correctamente recorriendo carácter por carácter
 - [ ] Los 5 posts de prueba cubren los distintos casos (vacío, muy largo, muchos hashtags, normal)
 - [ ] El resumen final cuenta correctamente válidos/inválidos
 
 **Ambos:**
+
 - [ ] Puedes explicar cada función en voz alta
 - [ ] Los archivos están subidos a GitHub con commits descriptivos
 
@@ -1479,16 +1561,17 @@ console.log(reporte)
 ---
 
 ### Pregunta 1
+
 > "Tenemos esta función en nuestro código y un compañero dice que tiene un bug. ¿Puedes encontrarlo?"
 
 ```javascript
 function calcularTotal(precio, cantidad) {
-    let total = precio * cantidad
-    console.log(total)
+  let total = precio * cantidad;
+  console.log(total);
 }
 
-let totalCompra = calcularTotal(1000, 3)
-console.log(totalCompra + 500)
+let totalCompra = calcularTotal(1000, 3);
+console.log(totalCompra + 500);
 ```
 
 <details>
@@ -1501,6 +1584,7 @@ console.log(totalCompra + 500)
 ---
 
 ### Pregunta 2
+
 > "¿Por qué en JavaScript preferimos usar funciones que retornan valores (`return`) en vez de funciones que solo modifican variables externas? Da un ejemplo de cuándo esto podría causar un problema en un equipo grande."
 
 > 💡 Esta pregunta no tiene "una sola respuesta correcta" — un entrevistador quiere ver **cómo razonas**, no que recites una definición.
@@ -1508,16 +1592,17 @@ console.log(totalCompra + 500)
 ---
 
 ### Pregunta 3
+
 > "Te paso este código. Sin ejecutarlo, ¿qué crees que va a pasar? ¿Por qué?"
 
 ```javascript
 function procesar() {
-    let resultado = "procesado"
-    return resultado
+  let resultado = "procesado";
+  return resultado;
 }
 
-procesar()
-console.log(resultado)
+procesar();
+console.log(resultado);
 ```
 
 <details>
@@ -1530,11 +1615,13 @@ Esto está directamente relacionado con lo que estudiaste el Día 3 — scope.
 ---
 
 ### Pregunta 4
+
 > "¿Cuándo usarías un bucle `for` y cuándo un `while`? Dame un ejemplo de cada caso donde uno sea claramente mejor que el otro."
 
 ---
 
 ### Pregunta 5 — Pregunta de código en vivo (la más común en entrevistas junior)
+
 > "Escribe en el pizarrón (o en este caso, en tu archivo) una función llamada `esPrimo` que reciba un número y retorne `true` si es un número primo, `false` si no lo es."
 
 > Un número primo es un número mayor a 1 que solo es divisible por 1 y por sí mismo.
@@ -1553,15 +1640,15 @@ Si alguno de ellos divide exactamente al número (resto 0 con `%`), no es primo.
 
 ```javascript
 function esPrimo(numero) {
-    if (numero <= 1) {
-        return false
+  if (numero <= 1) {
+    return false;
+  }
+  for (let i = 2; i < numero; i++) {
+    if (numero % i === 0) {
+      return false;
     }
-    for (let i = 2; i < numero; i++) {
-        if (numero % i === 0) {
-            return false
-        }
-    }
-    return true
+  }
+  return true;
 }
 ```
 
@@ -1576,33 +1663,28 @@ function esPrimo(numero) {
 Responde en `CHECKPOINT_SEMANA_02.md`:
 
 **Bucles:**
+
 1. ¿Cuál es la diferencia entre `for` y `while`? ¿Cuándo usarías cada uno?
 2. ¿Qué es un bucle infinito? Da un ejemplo y explica por qué ocurre.
 3. ¿Qué hace el operador `%`? Da 3 ejemplos.
 
-**Funciones:**
-4. ¿Cuál es la diferencia entre `console.log` dentro de una función y `return`?
-5. ¿Qué pasa si una función no tiene `return`? ¿Qué devuelve?
-6. ¿Cuántos `return` puede tener una función?
+**Funciones:** 4. ¿Cuál es la diferencia entre `console.log` dentro de una función y `return`? 5. ¿Qué pasa si una función no tiene `return`? ¿Qué devuelve? 6. ¿Cuántos `return` puede tener una función?
 
-**Scope:**
-7. ¿Qué es el scope? Explícalo con la analogía de las habitaciones.
-8. ¿Puede una función acceder a variables definidas fuera de ella? ¿Y al revés?
+**Scope:** 7. ¿Qué es el scope? Explícalo con la analogía de las habitaciones. 8. ¿Puede una función acceder a variables definidas fuera de ella? ¿Y al revés?
 
-**Conexión con Next.js:**
-9. Esta semana viste 3 veces una sección "Conexión con Next.js". En tus propias palabras, ¿cuál fue la conexión que más te ayudó a entender hacia dónde vas? ¿Por qué?
+**Conexión con Next.js:** 9. Esta semana viste 3 veces una sección "Conexión con Next.js". En tus propias palabras, ¿cuál fue la conexión que más te ayudó a entender hacia dónde vas? ¿Por qué?
 
-**Código:**
-10. Explica línea por línea qué hace este código:
+**Código:** 10. Explica línea por línea qué hace este código:
+
 ```javascript
 function esPar(numero) {
-    return numero % 2 === 0
+  return numero % 2 === 0;
 }
 
 for (let i = 1; i <= 10; i++) {
-    if (esPar(i)) {
-        console.log(i + " es par")
-    }
+  if (esPar(i)) {
+    console.log(i + " es par");
+  }
 }
 ```
 
@@ -1679,11 +1761,12 @@ Si completaste todo lo anterior:
 ---
 
 > ### 📘 BOOTCAMP PERSONAL — SEMANA 03
+>
 > **Tema:** Arrays · Métodos esenciales · Estructuras de datos
 > `push` · `pop` · `map` · `filter` · `reduce` · primeros algoritmos con datos reales
 
 ---
 
-*Bootcamp generado específicamente para Óscar — Full Stack Developer en formación 🇨🇱*
-*Stack objetivo: Next.js 15 + TypeScript + Tailwind + Prisma + PostgreSQL + Clerk*
-*Semana 2 de 52 — Bucles · Funciones · Scope — v2 (con conexión Next.js, código profesional y entrevista técnica)*
+_Bootcamp generado específicamente para Óscar — Full Stack Developer en formación 🇨🇱_
+_Stack objetivo: Next.js 15 + TypeScript + Tailwind + Prisma + PostgreSQL + Clerk_
+_Semana 2 de 52 — Bucles · Funciones · Scope — v2 (con conexión Next.js, código profesional y entrevista técnica)_

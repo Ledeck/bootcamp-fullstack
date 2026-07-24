@@ -262,3 +262,33 @@ let metodosPagoConfirmadas = reservasConfirmadas.reduce(function (acc, reserva) 
   acc[metodo] += 1;
   return acc;
 }, {});
+
+let metodoMasUsado = Object.keys(metodosPagoConfirmadas).reduce(function (acc, metodo) {
+  if (metodosPagoConfirmadas[acc] > metodosPagoConfirmadas[metodo]) return acc;
+  return metodo;
+}, Object.keys(metodosPagoConfirmadas)[0]);
+
+//**3.1** Para cada expedición, calcula cuántos cupos están ocupados (suma de personas en
+// reservas confirmadas de esa expedición):
+
+let cuposPorExpedicion = reservasConfirmadas.reduce(function (acc, cupo) {
+  let exp = expediciones.find(function (ocp) {
+    return ocp.id === cupo.expedicionId;
+  });
+
+  let nPersonas = cupo.personas;
+
+  if (acc[exp.nombre] === undefined) {
+    acc[exp.nombre] = 0;
+  }
+
+  acc[exp.nombre] += nPersonas;
+
+  return acc;
+}, {});
+
+// **3.2** Identifica qué expediciones tienen el 50% o más de su cupo ocupado.
+
+let expedicionesMas50Cupo = Object.keys(cuposPorExpedicion);
+
+// **3.3** Identifica qué expediciones no tienen ninguna reserva confirmada.

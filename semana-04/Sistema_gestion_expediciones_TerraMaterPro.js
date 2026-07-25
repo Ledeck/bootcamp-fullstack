@@ -177,14 +177,11 @@ let reservas = [
 // **1.1** Lista todas las expediciones de tipo `"trekking"` ordenadas por precio de
 // menor a mayor: .filter .sort
 
-let expedicionesTrekking = expediciones.filter(function (expedicion) {
+let expTrekkingOrdenadas = expediciones.filter(function (expedicion) {
   return expedicion.tipo === "trekking";
-});
-
-let trekkingOrdenadas = Object.entries(expedicionesTrekking).sort(function (a, b) {
+}).sort(function (a, b) {
   return a.precioBase - b.precioBase;
 });
-console.log(trekkingOrdenadas);
 
 // **1.2** Encuentra la expedición más cara y la más económica del catálogo completo:
 
@@ -200,16 +197,17 @@ let expedicionMasEconomica = expediciones.reduce(function (acc, expedicion) {
 
 // **1.3** Calcula el precio promedio de todas las expediciones:
 
-let totalExpediciones = expediciones.reduce(function (acc, expedicion) {
-  return acc.precioBase + expedicion.precioBase;
+let totalPrecioExpediciones = expediciones.reduce(function (acc, expedicion) {
+  return acc + expedicion.precioBase;
 }, 0);
 
-let promedioExpediciones = totalExpediciones / expediciones.length;
+let promedioExpediciones = totalPrecioExpediciones / expediciones.length;
+
 
 // **1.4** Lista las expediciones con dificultad `"alta"` que duren 3 días o menos:
 
 let expedicionesDificultadAltaMenosTresDias = expediciones.filter(function (expedicion) {
-  return expedicion.dificultad === "alta" && expedicion.duracionDias > 3;
+  return expedicion.dificultad === "alta" && expedicion.duracionDias <= 3;
 });
 console.log(expedicionesDificultadAltaMenosTresDias);
 
@@ -242,15 +240,11 @@ let ingresoTotal = ingresoPorExpedicion.reduce(function (acc, ingreso) {
   return acc + ingreso;
 });
 
-console.log(ingresoTotal);
-
 // **2.3** Cuenta cuántas personas en total participarán en expediciones confirmadas.
 
 let personasConfirmadas = reservasConfirmadas.reduce(function (acc, persona) {
   return acc + persona.personas;
 }, 0);
-
-console.log(personasConfirmadas);
 
 // **2.4** Encuentra cuál es el método de pago más usado en reservas confirmadas.
 
@@ -287,8 +281,19 @@ let cuposPorExpedicion = reservasConfirmadas.reduce(function (acc, cupo) {
   return acc;
 }, {});
 
+
 // **3.2** Identifica qué expediciones tienen el 50% o más de su cupo ocupado.
 
-let expedicionesMas50Cupo = Object.keys(cuposPorExpedicion);
+let valuescuposPorExpedicion = Object.values(cuposPorExpedicion);
+
+let expedicionesMas50Cupo = cuposPorExpedicion.filter(function (exp) {
+   Object.keys(cuposPorExpedicion).find(function (ex) {
+    return ex === expediciones.nombre;
+  });
+
+  return cuposPorExpedicion.[exp] / expediciones.cupoMaximo > 0.5;
+});
+
+console.log(expedicionesMas50Cupo);
 
 // **3.3** Identifica qué expediciones no tienen ninguna reserva confirmada.

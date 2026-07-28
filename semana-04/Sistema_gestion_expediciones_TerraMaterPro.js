@@ -177,11 +177,13 @@ let reservas = [
 // **1.1** Lista todas las expediciones de tipo `"trekking"` ordenadas por precio de
 // menor a mayor: .filter .sort
 
-let expTrekkingOrdenadas = expediciones.filter(function (expedicion) {
-  return expedicion.tipo === "trekking";
-}).sort(function (a, b) {
-  return a.precioBase - b.precioBase;
-});
+let expTrekkingOrdenadas = expediciones
+  .filter(function (expedicion) {
+    return expedicion.tipo === "trekking";
+  })
+  .sort(function (a, b) {
+    return a.precioBase - b.precioBase;
+  });
 
 // **1.2** Encuentra la expedición más cara y la más económica del catálogo completo:
 
@@ -203,13 +205,11 @@ let totalPrecioExpediciones = expediciones.reduce(function (acc, expedicion) {
 
 let promedioExpediciones = totalPrecioExpediciones / expediciones.length;
 
-
 // **1.4** Lista las expediciones con dificultad `"alta"` que duren 3 días o menos:
 
 let expedicionesDificultadAltaMenosTresDias = expediciones.filter(function (expedicion) {
   return expedicion.dificultad === "alta" && expedicion.duracionDias <= 3;
 });
-console.log(expedicionesDificultadAltaMenosTresDias);
 
 // ### MÓDULO 2 — Análisis de Reservas
 
@@ -238,7 +238,7 @@ let ingresoPorExpedicion = reservasConfirmadas.map(function (reserva) {
 
 let ingresoTotal = ingresoPorExpedicion.reduce(function (acc, ingreso) {
   return acc + ingreso;
-});
+}, 0);
 
 // **2.3** Cuenta cuántas personas en total participarán en expediciones confirmadas.
 
@@ -265,35 +265,55 @@ let metodoMasUsado = Object.keys(metodosPagoConfirmadas).reduce(function (acc, m
 //**3.1** Para cada expedición, calcula cuántos cupos están ocupados (suma de personas en
 // reservas confirmadas de esa expedición):
 
-let cuposPorExpedicion = reservasConfirmadas.reduce(function (acc, cupo) {
-  let exp = expediciones.find(function (ocp) {
-    return ocp.id === cupo.expedicionId;
-  });
-
-  let nPersonas = cupo.personas;
-
-  if (acc[exp.nombre] === undefined) {
-    acc[exp.nombre] = 0;
+let cuposPorExpId = reservasConfirmadas.reduce(function (acc, reserva) {
+  let expId = reserva.expedicionId;
+  let nPersonas = reserva.personas;
+  if (acc[expId] === undefined) {
+    acc[expId] = 0;
   }
-
-  acc[exp.nombre] += nPersonas;
-
+  acc[expId] += nPersonas;
   return acc;
 }, {});
 
-
 // **3.2** Identifica qué expediciones tienen el 50% o más de su cupo ocupado.
 
-let valuescuposPorExpedicion = Object.values(cuposPorExpedicion);
+let exp50PorCientoMas = Object.keys(cuposPorExpId).filter(function (Id) {
+  let cupos = expediciones.find(function (expedicion) {
+    return expedicion.id === Id;
+  }).cupoMaximo;
 
-let expedicionesMas50Cupo = cuposPorExpedicion.filter(function (exp) {
-   Object.keys(cuposPorExpedicion).find(function (ex) {
-    return ex === expediciones.nombre;
-  });
-
-  return cuposPorExpedicion.[exp] / expediciones.cupoMaximo > 0.5;
+  return cuposPorExpId[Id] / cupos >= 0.5;
 });
 
-console.log(expedicionesMas50Cupo);
-
 // **3.3** Identifica qué expediciones no tienen ninguna reserva confirmada.
+
+let expedicionesSinReserva = expediciones.filter(function (exp) {
+  return !(exp.id in cuposPorExpId);
+});
+
+// MÓDULO 4 — Reporte de Gerencia
+
+//Nombre de la expedición con más ingresos generados:
+
+console.log(`
+=== TERRAMATER PRO — REPORTE EJECUTIVO ===
+📋 CATÁLOGO
+Expediciones disponibles: ${expediciones.length}
+Precio promedio: $${promedioExpediciones.toLocaleString("es-CL")}
+Más cara: ${expedicionMasCara.nombre} ($${expedicionMasCara.precioBase.toLocaleString("es-CL")}) 
+Más económica: ${expedicionMasEconomica.nombre} ($${expedicionMasEconomica.precioBase.toLocaleString("es-CL")}) 
+Expediciones de trekking: ${expTrekkingOrdenadas.length}
+
+💰 INGRESOS
+Reservas confirmadas: ${cuposPorExpId.length}
+Ingresos totales: $${ingresoTotal.toLocaleString("es-CL")}
+Personas confirmadas: ${personasConfirmadas}  
+Método de pago más usado: ${metodoMasUsado}
+
+📊 OCUPACIÓN
+Expediciones con 50%+ de ocupación: ${exp50PorCientoMas.length}
+Expediciones sin reservas confirmadas: ${expedicionesSinReserva.length}
+
+🏆 TOP EXPEDICIÓN
+[nombre de la expedición con más ingresos generados]
+Ingresos: $[monto]`);

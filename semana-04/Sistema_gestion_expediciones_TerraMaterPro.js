@@ -295,6 +295,15 @@ let expedicionesSinReserva = expediciones.filter(function (exp) {
 
 //Nombre de la expedición con más ingresos generados:
 
+let expedicionMasIngresos = Object.keys(cuposPorExpId).map(function(expId){
+  let montoTotalPorExpedicion = expediciones.find(function(exp){
+    return exp.id === expId;
+  });
+  return cuposPorExpId[expId]*expediciones.id;
+
+});
+
+
 console.log(`
 === TERRAMATER PRO — REPORTE EJECUTIVO ===
 📋 CATÁLOGO
@@ -305,7 +314,7 @@ Más económica: ${expedicionMasEconomica.nombre} ($${expedicionMasEconomica.pre
 Expediciones de trekking: ${expTrekkingOrdenadas.length}
 
 💰 INGRESOS
-Reservas confirmadas: ${cuposPorExpId.length}
+Reservas confirmadas: ${reservasConfirmadas.length}
 Ingresos totales: $${ingresoTotal.toLocaleString("es-CL")}
 Personas confirmadas: ${personasConfirmadas}  
 Método de pago más usado: ${metodoMasUsado}

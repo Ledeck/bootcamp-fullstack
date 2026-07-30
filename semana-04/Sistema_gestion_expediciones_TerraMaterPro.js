@@ -295,14 +295,23 @@ let expedicionesSinReserva = expediciones.filter(function (exp) {
 
 //Nombre de la expedición con más ingresos generados:
 
-let ingresosPorExpedicion = Object.keys(cuposPorExpId).map(function(expId){
-  let expedicion = expediciones.find(function(exp){
+let ingresosTotalesPorExpedicion = Object.keys(cuposPorExpId).map(function (expId) {
+  let expedicion = expediciones.find(function (exp) {
     return exp.id === expId;
   });
-  return cuposPorExpId[expId]*expedicion.precioBase;
-
+  return {
+    nombre: expedicion.nombre,
+    monto: cuposPorExpId[expId] * expedicion.precioBase
+  };
 });
-console.log(expedicionMasIngresos);
+
+let expedicionConMasIngresos = ingresosTotalesPorExpedicion.reduce(function (acc, exp) {
+  if (exp.monto > acc.monto) return exp;
+  return acc;
+}, ingresosTotalesPorExpedicion[0]);
+
+console.log(ingresosTotalesPorExpedicion);
+console.log(expedicionConMasIngresos);
 
 console.log(`
 === TERRAMATER PRO — REPORTE EJECUTIVO ===
@@ -324,5 +333,5 @@ Expediciones con 50%+ de ocupación: ${exp50PorCientoMas.length}
 Expediciones sin reservas confirmadas: ${expedicionesSinReserva.length}
 
 🏆 TOP EXPEDICIÓN
-[nombre de la expedición con más ingresos generados]
-Ingresos: $[monto]`);
+nombre de la expedición con más ingresos generados: ${expedicionConMasIngresos.nombre}
+Ingresos: $${expedicionConMasIngresos.monto.toLocaleString("es-CL")}`);

@@ -295,14 +295,14 @@ let expedicionesSinReserva = expediciones.filter(function (exp) {
 
 //Nombre de la expedición con más ingresos generados:
 
-let expedicionMasIngresos = Object.keys(cuposPorExpId).map(function(expId){
-  let montoTotalPorExpedicion = expediciones.find(function(exp){
+let ingresosPorExpedicion = Object.keys(cuposPorExpId).map(function(expId){
+  let expedicion = expediciones.find(function(exp){
     return exp.id === expId;
   });
-  return cuposPorExpId[expId]*expediciones.id;
+  return cuposPorExpId[expId]*expedicion.precioBase;
 
 });
-
+console.log(expedicionMasIngresos);
 
 console.log(`
 === TERRAMATER PRO — REPORTE EJECUTIVO ===

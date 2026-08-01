@@ -310,9 +310,6 @@ let expedicionConMasIngresos = ingresosTotalesPorExpedicion.reduce(function (acc
   return acc;
 }, ingresosTotalesPorExpedicion[0]);
 
-console.log(ingresosTotalesPorExpedicion);
-console.log(expedicionConMasIngresos);
-
 console.log(`
 === TERRAMATER PRO — REPORTE EJECUTIVO ===
 📋 CATÁLOGO

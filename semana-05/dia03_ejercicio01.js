@@ -14,12 +14,12 @@ let equipoAmpliado = [...equipoA, ...nuevosIntegrantes];
 
 let copiaEquipoA = [...equipoA, "Roberto"];
 
-
-
 // 4. Encuentra el nombre más largo de `equipoCompleto` usando spread con `Math.max` y `.length`
 
-let nombreMasLargo = equipoCompleto.map((nombres) => {
-    nombres.length;
-});
- 
-console.log(Math.max(...nombreMasLargo));
+let longitudNombres = equipoCompleto.map((nombres) => nombres.length);
+
+let longitudMax = Math.max(...longitudNombres);
+
+let nombreMasLargo = equipoCompleto.find((nombres) => nombres.length === longitudMax);
+
+console.log(nombreMasLargo);

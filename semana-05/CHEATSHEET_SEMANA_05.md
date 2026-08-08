@@ -1,7 +1,9 @@
 # CHEAT SHEET — SEMANA 05
 ## ES6+ Moderno · Arrow Functions · Destructuring · Spread · Módulos
 
-> Lee esto ANTES de empezar los ejercicios.
+> Guion de la clase de activación. Se entrega POR PARTES, día a día.
+> No lo leas completo de antemano: cada jornada empieza con la activación
+> del tema correspondiente.
 > Esta semana transforma la forma en que escribes JavaScript.
 > No son conceptos nuevos — son formas más concisas de expresar lo que ya sabes.
 
@@ -287,6 +289,146 @@ ejemplo(0)          // 0 — 0 tampoco activa el default
 
 ---
 
+## CRITERIOS OPCIONALES — DOS ESTRATEGIAS
+
+Caso frecuente: una función de filtrado donde cada criterio puede venir o no.
+Si el criterio no viene, **no debe rechazar nada**.
+
+Hay dos formas de conseguirlo, y elegir bien depende del tipo de dato.
+
+### Estrategia A — default NEUTRO
+
+Cuando existe un valor que hace la condición **siempre verdadera**:
+
+```javascript
+function filtrar(items, { precioMax = Infinity }) {
+  return items.filter((item) => item.precio <= precioMax);
+}
+
+filtrar(items, {});                  // precioMax = Infinity → pasa todo
+filtrar(items, { precioMax: 5000 }); // filtra de verdad
+```
+
+`Infinity` es el valor neutro de `<=`. Ningún precio lo supera, así que sin
+criterio no se descarta nada.
+
+**Otros valores neutros según el operador:**
+
+```
+<=  →  Infinity
+>=  →  -Infinity
+sumar  →  0
+multiplicar  →  1
+```
+
+### Estrategia B — cuando NO existe valor neutro
+
+Para un string como `tipo`, no hay ningún valor que signifique "cualquiera".
+No puedes escribir `tipo = "todos"` porque tendrías que comprobarlo aparte.
+
+La solución es dejar el parámetro **sin default** y neutralizar en la condición:
+
+```javascript
+function filtrar(items, { tipo }) {
+  return items.filter((item) => !tipo || item.tipo === tipo);
+}
+
+filtrar(items, {});                    // tipo = undefined → !undefined es true → pasa todo
+filtrar(items, { tipo: "kayak" });     // compara de verdad
+```
+
+Se lee: **"si no hay criterio, pasa; si lo hay, compara"**.
+
+Funciona porque `||` corta en cuanto encuentra algo verdadero. Si `!tipo` es
+`true`, la comparación ni se evalúa.
+
+### Combinando ambas
+
+```javascript
+function filtrarExpediciones(expediciones, { tipo, dificultad, precioMax = Infinity }) {
+  return expediciones.filter((exp) =>
+    (!tipo || exp.tipo === tipo) &&
+    (!dificultad || exp.dificultad === dificultad) &&
+    exp.precioBase <= precioMax
+  );
+}
+```
+
+Fíjate en la asimetría: `precioMax` lleva default; `tipo` y `dificultad`, no.
+No es descuido — es que solo el primero tiene un valor neutro disponible.
+
+**Error típico:**
+
+```javascript
+// ❌ !criterio se activa con CUALQUIER valor falsy
+function filtrar(items, { cupos }) {
+  return items.filter((item) => !cupos || item.cupos === cupos);
+}
+filtrar(items, { cupos: 0 });   // !0 es true → devuelve TODO, no los de 0 cupos
+
+// ✅ Cuando 0, "" o false son criterios válidos, compara con undefined
+function filtrar(items, { cupos }) {
+  return items.filter((item) => cupos === undefined || item.cupos === cupos);
+}
+```
+
+Es la misma distinción de los default parameters: **ausencia** no es lo mismo
+que **valor falsy**.
+
+**Idea mental:** un criterio ausente no filtra. La pregunta es cómo expresar
+"no filtres" — con un valor neutro si existe, con una condición que corta si no.
+
+---
+
+## `toLocaleString` CON OPCIONES
+
+Ya la usas sin argumentos. El segundo parámetro controla el formato:
+
+```javascript
+(1234.5).toLocaleString("es-CL")
+// "1.234,5" — decimales según el default del locale
+
+(1234.5).toLocaleString("es-CL", {
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0
+})
+// "1.235" — sin decimales, redondeado
+
+(1234.5).toLocaleString("es-CL", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+})
+// "1.234,50" — siempre dos decimales
+```
+
+**Las dos opciones que importan:**
+
+```
+minimumFractionDigits  →  decimales MÍNIMOS (rellena con ceros)
+maximumFractionDigits  →  decimales MÁXIMOS (redondea)
+```
+
+Para un número fijo de decimales, pon las dos iguales.
+
+**Formato de moneda:**
+
+```javascript
+(450000).toLocaleString("es-CL", { style: "currency", currency: "CLP" })
+// "$450.000"
+
+(450000).toLocaleString("es-CL", { style: "currency", currency: "USD" })
+// "US$450.000,00"
+```
+
+⚠ **Trampa:** si `minimumFractionDigits` es mayor que `maximumFractionDigits`,
+lanza `RangeError`. Con defaults dinámicos es fácil pisarlo sin darse cuenta.
+
+⚠ **Segunda trampa:** `style: "currency"` decide los decimales por la moneda,
+no por el locale. CLP no usa decimales; USD sí. Si necesitas control exacto,
+combina `style: "currency"` con `maximumFractionDigits`.
+
+---
+
 ## MÓDULOS — IMPORT / EXPORT
 
 Dividir el código en archivos separados con responsabilidades claras.
@@ -419,6 +561,9 @@ import MiComponente from "./archivo.js"      // ✅
 □ Entiendo la diferencia entre spread (expande) y rest (agrupa)
 □ Puedo usar spread para copiar y combinar arrays y objetos
 □ Puedo usar default parameters correctamente
+□ Sé neutralizar un criterio opcional con valor neutro o con !criterio ||
+□ Sé cuándo !criterio falla y hay que comparar con undefined
+□ Puedo controlar los decimales de toLocaleString
 □ Entiendo qué activa un default parameter (undefined) y qué no (null, 0, "")
 □ Puedo exportar e importar con named exports y default export
 □ Sé la diferencia entre importar con llaves y sin llaves

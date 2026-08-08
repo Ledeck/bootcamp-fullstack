@@ -995,11 +995,126 @@ Escríbela con default parameters y luego prueba estos casos:
 
 **Ejercicio 2** — `dia04_ejercicio02.js`
 
-Escribe estas funciones combinando arrow functions, destructuring y default parameters:
+Escribe estas funciones combinando arrow functions, destructuring y default parameters.
 
-1. `formatearDinero({ monto, moneda = "CLP", decimales = 0 })` — retorna el monto formateado
-2. `filtrarExpediciones(expediciones, { tipo, dificultad, precioMax = Infinity })` — filtra según los criterios, todos opcionales
-3. `generarResumen({ nombre, ventas = [], meta = 100000 })` — retorna un objeto con nombre, totalVentas, meta y si se cumplió la meta
+**1. `formatearDinero({ monto, moneda = "CLP", decimales = 0 })`**
+
+Retorna el monto formateado con el símbolo de la moneda y la cantidad de
+decimales indicada.
+
+```javascript
+formatearDinero({ monto: 450000 });
+// "$450.000"
+
+formatearDinero({ monto: 1234.567, decimales: 2 });
+// "$1.234,57"
+
+formatearDinero({ monto: 450000, moneda: "USD", decimales: 2 });
+// "US$450.000,00"
+```
+
+> Necesitas el segundo argumento de `toLocaleString`. Está en la Cheat Sheet,
+> sección "toLocaleString con opciones".
+
+---
+
+## `toLocaleString` CON OPCIONES
+
+Ya la usas sin argumentos. El segundo parámetro controla el formato:
+
+```javascript
+(1234.5)
+  .toLocaleString("es-CL")(
+    // "1.234,5" — decimales según el default del locale
+
+    1234.5
+  )
+  .toLocaleString("es-CL", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  })(
+    // "1.235" — sin decimales, redondeado
+
+    1234.5
+  )
+  .toLocaleString("es-CL", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+// "1.234,50" — siempre dos decimales
+```
+
+**Las dos opciones que importan:**
+
+```
+minimumFractionDigits  →  decimales MÍNIMOS (rellena con ceros)
+maximumFractionDigits  →  decimales MÁXIMOS (redondea)
+```
+
+Para un número fijo de decimales, pon las dos iguales.
+
+**Formato de moneda:**
+
+```javascript
+(450000)
+  .toLocaleString("es-CL", { style: "currency", currency: "CLP" })(
+    // "$450.000"
+
+    450000
+  )
+  .toLocaleString("es-CL", { style: "currency", currency: "USD" });
+// "US$450.000,00"
+```
+
+⚠ **Trampa:** si `minimumFractionDigits` es mayor que `maximumFractionDigits`,
+lanza `RangeError`. Con defaults dinámicos es fácil pisarlo sin darse cuenta.
+
+⚠ **Segunda trampa:** `style: "currency"` decide los decimales por la moneda,
+no por el locale. CLP no usa decimales; USD sí. Si necesitas control exacto,
+combina `style: "currency"` con `maximumFractionDigits`.
+
+---
+
+**2. `filtrarExpediciones(expediciones, { tipo, dificultad, precioMax = Infinity })`**
+
+Filtra según los criterios. Los tres son opcionales: un criterio que no viene
+**no debe rechazar nada**.
+
+```javascript
+const expediciones = [
+  { nombre: "Cruce Los Andes", tipo: "trekking", dificultad: "alta", precioBase: 280000 },
+  { nombre: "Lago Llanquihue", tipo: "kayak", dificultad: "media", precioBase: 195000 },
+  { nombre: "Reserva Nonguén", tipo: "trekking", dificultad: "baja", precioBase: 45000 }
+];
+
+filtrarExpediciones(expediciones, {});
+// las 3 — sin criterios, no se descarta nada
+
+filtrarExpediciones(expediciones, { tipo: "trekking" });
+// Cruce Los Andes y Reserva Nonguén
+
+filtrarExpediciones(expediciones, { tipo: "trekking", precioMax: 100000 });
+// solo Reserva Nonguén
+```
+
+> Fíjate en que `precioMax` lleva default y `tipo` y `dificultad` no. **No es
+> un descuido del enunciado.** La razón está en la Cheat Sheet, sección
+> "Criterios opcionales — dos estrategias".
+
+**3. `generarResumen({ nombre, ventas = [], meta = 100000 })`**
+
+Retorna un objeto con el nombre, el total de ventas, la meta y si se cumplió.
+
+```javascript
+generarResumen({ nombre: "Ana", ventas: [40000, 35000, 50000] });
+// { nombre: "Ana", totalVentas: 125000, meta: 100000, cumplioMeta: true }
+
+generarResumen({ nombre: "Luis" });
+// { nombre: "Luis", totalVentas: 0, meta: 100000, cumplioMeta: false }
+```
+
+> El segundo caso es el que justifica el default `ventas = []`. Piensa qué
+> pasaría con `reduce` si `ventas` llegara como `undefined`.
 
 ---
 

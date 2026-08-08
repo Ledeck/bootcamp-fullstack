@@ -15,7 +15,20 @@ let crearExpedicion = (
   cupoMaximo = 10,
   activa = true
 ) => {
-  return (nombre, tipo, dificultad, cupoMaximo, activa);
+  return { nombre, tipo, dificultad, cupoMaximo, activa };
 };
 
-console.log(crearExpedicion("Torres del Paine"));
+// 1. Solo con nombre
+crearExpedicion("Torres del Paine");
+
+// 2. Con nombre y tipo
+crearExpedicion("Aconcagua", "avistamiento");
+
+// 3. Con todos los parámetros
+crearExpedicion("Atacama", "astronómica", "alta", 15, false);
+
+// 4. Con dificultad = ""
+crearExpedicion("Chiloé", "trekking", "");
+
+// 5. Con cupoMaximo = 0
+crearExpedicion("Torres del Paine", "trekking", "media", 0);

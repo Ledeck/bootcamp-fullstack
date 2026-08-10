@@ -1401,7 +1401,17 @@ Exporta con **named exports**:
 - `esContrasenaSegura(password)` — true si tiene 8+ caracteres
 - `esRutChileno(rut)` — true si tiene el formato "12345678-9" (dígito verificador no calculado — solo formato)
 - `esTelefonoChileno(tel)` — true si empieza con "+56" y tiene 11 caracteres en total
-- `validarCampos(objeto, camposRequeridos)` — recibe un objeto y un array de strings, retorna true si todos los campos existen y no están vacíos
+- `validarCampos(objeto, camposRequeridos)` — recibe un objeto y un array de strings, retorna true si todos los campos existen y no están vacíos, ejemplos:
+
+````javascript
+validarCampos({ nombre: "Ana", email: "ana@test.cl" }, ["nombre", "email"])
+// → true — los dos campos requeridos existen en el objeto y ninguno está vacío
+
+validarCampos({ nombre: "Ana", email: "" }, ["nombre", "email"])
+// → false — "email" existe, pero está vacío
+
+validarCampos({ nombre: "Ana" }, ["nombre", "email"])
+// → false — "email" ni siquiera existe en el objeto
 
 ---
 
@@ -1439,7 +1449,7 @@ export * from "./precios.js";
 export * from "./validaciones.js";
 export * from "./colecciones.js";
 export * from "./texto.js";
-```
+````
 
 Esto permite importar todo desde un solo lugar:
 

@@ -1,6 +1,6 @@
 export const esEmailValido = (email) => email.includes("@") && email.includes(".");
 
-export const esContraseñaSegura = (password) => password.length >= 8;
+export const esContrasenaSegura = (password) => password.length >= 8;
 
 export const esRutChileno = (rut) => {
   const validacionLongitud = [9, 10].includes(rut.length);
@@ -16,10 +16,5 @@ export const esRutChileno = (rut) => {
 
 export const esTelefonoChileno = (tel) => tel.startsWith("+56") && tel.length === 11;
 
-export const validarcampos = (objeto, camposRequeridos) => {
-  return (
-    camposRequeridos.every((campo) => campo !== "") &&
-    Object.keys(objeto).every((elemento) => elemento !== "") &&
-    Object.values(objeto).every((elemento) => elemento !== "")
-  );
-};
+export const validarCampos = (objeto, camposRequeridos) =>
+  camposRequeridos.every((campo) => objeto[campo] !== "" && objeto[campo] !== undefined);

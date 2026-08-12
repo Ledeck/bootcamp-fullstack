@@ -15,4 +15,6 @@ const agruparPor = (array, clave) => {
   }, {});
 };
 
-const ordenarpor = (array, clave, (ascendente = true));
+const ordenarpor = (array, clave, ascendente = true) => {
+  return [...array].sort((a, b) => a[clave] < b[clave]);
+};

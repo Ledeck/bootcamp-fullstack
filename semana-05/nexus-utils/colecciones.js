@@ -15,6 +15,27 @@ const agruparPor = (array, clave) => {
   }, {});
 };
 
-const ordenarpor = (array, clave, ascendente = true) => {
-  return [...array].sort((a, b) => a[clave] < b[clave]);
+const ordenarPor = (array, clave, ascendente = true) => {
+  return [...array].sort((a, b) => {
+    if (ascendente) {
+      if (a[clave] < b[clave]) return -1;
+      if (a[clave] > b[clave]) return 1;
+      return 0;
+    } else {
+      if (a[clave] > b[clave]) return -1;
+      if (a[clave] < b[clave]) return 1;
+      return 0;
+    }
+  });
 };
+
+let items = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"];
+
+const paginar = (array, pagina = 1, porPagina = 10) => {
+  return array.slice((inicio, fin) => {
+    inicio = porPagina * (pagina - 1);
+    fin = porPagina * pagina;
+  });
+};
+
+paginar(items, 2, 5);

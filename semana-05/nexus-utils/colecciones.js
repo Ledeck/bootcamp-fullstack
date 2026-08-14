@@ -36,5 +36,3 @@ export const combinar = (...array) => {
 
   return arrayCombinado.filter((item, index) => index === arrayCombinado.indexOf(item));
 };
-
-combinar(["trekking", "kayak"], ["kayak", "escalada"], ["trekking"]);

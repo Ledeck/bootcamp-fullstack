@@ -36,3 +36,12 @@ export const combinar = (...array) => {
 
   return arrayCombinado.filter((item, index) => index === arrayCombinado.indexOf(item));
 };
+
+export const masFrecuente = (array) => {
+  const conteo = array.reduce((acc, item) => {
+    acc[item] = (acc[item] || 0) + 1;
+    return acc;
+  }, {});
+
+  return Object.entries(conteo).sort((a, b) => b[1] - a[1])[0][0];
+};

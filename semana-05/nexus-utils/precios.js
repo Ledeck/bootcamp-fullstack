@@ -7,6 +7,6 @@ export const calcularConIVA = (precio, iva = IVA_CHILE) => Math.round(precio + p
 export const calcularDescuento = (precio, porcentaje = 0) => precio - precio * (porcentaje / 100);
 
 export const calcularTotal = (items) => {
-  let subTotal = items.reduce((suma, p) => suma + p.precio * p.cantidad, 0);
+  let subTotal = items.reduce((suma, { precio, cantidad }) => suma + precio * cantidad, 0);
   return calcularConIVA(subTotal);
 };

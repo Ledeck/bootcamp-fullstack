@@ -3,27 +3,60 @@
 
 ---
 
-> **Antes de empezar:** Lee la `CHEATSHEET_SEMANA_09.md` completa.
-> **Recuerda:** Cuando termines cada día, avísame para validar antes de continuar.
->
-> **Setup para esta semana:**
-> ```bash
-> # Instalar TypeScript globalmente
-> npm install -g typescript
->
-> # Verificar instalación
-> tsc --version
->
-> # Compilar un archivo .ts a .js
-> tsc archivo.ts
->
-> # Ejecutar directamente con ts-node (opcional pero útil)
-> npm install -g ts-node
-> ts-node archivo.ts
-> ```
->
-> Crea los archivos con extensión `.ts`. Para ver los errores en Cursor,
-> simplemente guarda el archivo — el editor los muestra en tiempo real.
+```
+ACTA DE AUDITORÍA
+Material original: formato v3, sin auditar
+Auditado y corregido: 2026-08-06 — ver AUDITORIA_SEMANA_09.md
+Correcciones aplicadas: bloque perecedero reescrito · Cheat Sheet creado ·
+                        Día 7 añadido (ejecutar vs comprobar)
+```
+
+> **Flujo de la semana:** el Cheat Sheet se entrega por partes, día a día,
+> como guion de la clase de activación. No lo leas completo de antemano.
+> **Recuerda:** cuando termines cada día, avísame para validar.
+
+---
+
+## ⏱ BLOQUE PERECEDERO
+
+```
+Verificado: agosto 2026
+REGENERAR antes de empezar la semana.
+```
+
+### No instales nada para ejecutar
+
+**Node.js ejecuta archivos `.ts` directamente:**
+
+```bash
+node archivo.ts
+```
+
+Sin `tsc`, sin `ts-node`, sin configuración. Funciona desde Node 22.18, y es
+el comportamiento por defecto en Node 24 LTS.
+
+Verifica tu versión: `node --version`
+
+### Para comprobar tipos, comando aparte
+
+```bash
+npx tsc --noEmit
+```
+
+⚠ **AVISO SOBRE MATERIAL ANTIGUO.** La versión anterior de este bootcamp
+indicaba `npm install -g ts-node` y `tsc archivo.ts`. **Ambos están
+retirados** para este caso de uso. Casi todos los tutoriales anteriores a
+2025 los usan; ya no hacen falta.
+
+⚠ **Y lo más importante de la semana:** `node archivo.ts` **NO comprueba los
+tipos**. Ejecuta el archivo borrando las anotaciones. Un archivo lleno de
+errores de tipo corre sin quejarse.
+
+Eso tiene un día propio — el Día 7. Pero tenlo presente desde el primero.
+
+Crea los archivos con extensión `.ts`. Cursor te muestra los errores mientras
+escribes, pero el editor no es una garantía: si ignoras el subrayado rojo y
+ejecutas, el archivo corre igual.
 
 ---
 
@@ -963,6 +996,222 @@ const nueva: CrearExpedicion = {
 
 > ### 📘 PRÓXIMA SEMANA
 > **Semana 10:** React — Componentes, props, estado, hooks básicos (useState, useEffect)
+
+
+---
+
+## 🗓 DÍA 7 — EJECUTAR NO ES COMPROBAR
+
+> **Día añadido en la auditoría del 2026-08-06.**
+> No estaba en el material original porque cuando se escribió, Node todavía
+> no ejecutaba TypeScript directamente.
+
+### 🎯 Objetivo
+Entender que Node ejecuta tus tipos borrándolos, no verificándolos — y montar
+el flujo de trabajo que sí los verifica.
+
+---
+
+### 📖 El problema real
+
+Llevas seis días escribiendo TypeScript. Los tipos te han detectado errores
+mientras escribías, el editor te subrayaba en rojo, todo bien.
+
+Ahora prueba esto:
+
+```typescript
+// prueba.ts
+function sumar(a: number, b: number): number {
+  return a + b;
+}
+
+console.log(sumar("hola", "mundo"));
+```
+
+Cursor te subraya la llamada en rojo. Ignóralo y ejecuta:
+
+```bash
+node prueba.ts
+```
+
+---
+
+### 📖 Qué pasó
+
+Imprime **`holamundo`**.
+
+Sin error. Sin advertencia. El programa corrió completo y produjo un
+resultado sin sentido.
+
+**Por qué:** Node usa un mecanismo llamado *type stripping*. Un módulo
+llamado `amaro` borra las anotaciones de tipo y las sustituye por espacios en
+blanco, dejando JavaScript válido:
+
+```typescript
+// Lo que escribiste
+function sumar(a: number, b: number): number {
+  return a + b;
+}
+
+// Lo que Node ejecutó
+function sumar(a        , b        )         {
+  return a + b;
+}
+```
+
+Los espacios no son casualidad: mantienen los números de línea idénticos para
+que los errores apunten al sitio correcto.
+
+**Node nunca vio los tipos.** No los ignoró: los borró antes de empezar.
+
+---
+
+### 📖 El modelo mental correcto
+
+```
+node archivo.ts     →  EJECUTA.    No comprueba nada.
+npx tsc --noEmit    →  COMPRUEBA.  No ejecuta nada.
+```
+
+Son dos herramientas con trabajos distintos, y hacen falta las dos.
+
+Prueba el segundo sobre el mismo archivo:
+
+```bash
+npx tsc --noEmit
+```
+
+Ahora sí aparece el error, con archivo y línea.
+
+**El editor no es una garantía.** Cursor ejecuta el mismo comprobador por
+debajo y te avisa mientras escribes, pero avisar no es impedir. Si ignoras el
+subrayado, el archivo corre.
+
+---
+
+### 📖 Por qué esto importa más de lo que parece
+
+Es la regla que arrastras desde el Mes 1, ahora aplicada al lenguaje que
+supuestamente la resuelve:
+
+> **"No dio error" no significa "está bien".**
+
+Un alumno que crea que TypeScript le protege en ejecución confía en una red
+que no está puesta. TypeScript protege **antes** de ejecutar, y solo si
+ejecutas el comprobador.
+
+---
+
+### 📖 El flujo de trabajo real
+
+```
+Mientras escribes    →  el editor te avisa (rápido, cómodo, no bloquea)
+Antes de commitear   →  npx tsc --noEmit
+En integración       →  npx tsc --noEmit como paso obligatorio
+```
+
+Un script en `package.json` te lo deja a mano:
+
+```json
+{
+  "scripts": {
+    "check": "tsc --noEmit"
+  }
+}
+```
+
+`npm run check` antes de cada commit.
+
+---
+
+### 📖 Sintaxis que Node no puede ejecutar
+
+Type stripping solo maneja **sintaxis borrable** — la que al quitarla deja
+JavaScript válido.
+
+Estas fallan con `ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX`:
+
+```typescript
+enum Estado { Confirmada, Pendiente }      // genera un objeto real
+namespace Utilidades { ... }
+class Reserva {
+  constructor(private cliente: string) {}  // propiedad de parámetro
+}
+```
+
+**Por qué:** un `enum` no es solo una anotación. Se convierte en un objeto
+que existe en tiempo de ejecución. Borrarlo rompería el código, así que Node
+se niega en vez de romper en silencio.
+
+Fíjate en la diferencia de comportamiento: con un error de tipo, Node
+**ejecuta igual**. Con sintaxis no borrable, Node **se detiene**. La primera
+es una decisión de diseño discutible; la segunda es honestidad.
+
+**Alternativa a `enum`** — la que verás en código moderno:
+
+```typescript
+const ESTADOS = ["confirmada", "pendiente", "cancelada"] as const;
+type Estado = typeof ESTADOS[number];
+```
+
+Funciona con type stripping, y además te da el array en ejecución.
+
+---
+
+### 📖 Mini-ejercicio de comprensión
+
+Tienes dos archivos. El primero tiene un error de tipo. El segundo usa un
+`enum`.
+
+Ejecutas los dos con `node`. Uno corre y otro falla.
+
+¿Cuál es cuál, y por qué la diferencia?
+
+---
+
+### 🛠 EJERCICIOS DÍA 7
+
+**Ejercicio 1** — ver el fallo silencioso
+
+Escribe `prueba-tipos.ts` con al menos tres errores de tipo distintos —
+argumento incorrecto, retorno incorrecto, propiedad inexistente.
+
+Ejecútalo con `node`. Documenta en `NOTAS.md` qué esperabas y qué pasó.
+
+Después ejecuta `npx tsc --noEmit` y compara.
+
+**Ejercicio 2** — el script de comprobación
+
+Agrega `"check": "tsc --noEmit"` a tu `package.json`. Verifica que
+`npm run check` detecta los errores del ejercicio 1.
+
+**Ejercicio 3** — sintaxis no borrable
+
+Escribe un archivo con un `enum` y ejecútalo con `node`. Documenta el mensaje
+de error exacto.
+
+Después reescríbelo con `as const` y comprueba que corre.
+
+**Ejercicio 4** — juzga este flujo
+
+Un compañero te dice:
+
+> "Yo no uso `tsc`. El editor me marca los errores en rojo, así que si no hay
+> rojo, está bien. Y si algo falla, lo veo al ejecutar."
+
+Enumera todo lo que está mal en ese razonamiento. Son al menos tres cosas.
+
+> Pista para la tercera: ¿qué archivos tiene el editor abiertos?
+
+---
+
+**Cuando termines avísame — valido el Día 7.** ✅
+
+---
+
+## 🔜 PUNTO DE SÍNTESIS
+
+Al aprobar esta semana se dispara **PS-3**, el tercer Proyecto Integrador.
 
 ---
 

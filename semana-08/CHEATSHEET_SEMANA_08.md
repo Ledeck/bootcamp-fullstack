@@ -439,5 +439,115 @@ Lo que aprendes esta semana es el fundamento conceptual — cuando uses Tailwind
 
 ---
 
+
+---
+
+## EL DOM — CONECTAR DATOS CON PANTALLA
+
+> Añadido en la auditoría del 2026-08-06. Corresponde al Día 7.
+
+**Qué es:** cuando el navegador carga tu HTML, construye un árbol de objetos
+en memoria. Ese árbol es el DOM, y es JavaScript normal: puedes leerlo y
+modificarlo.
+
+**Idea mental:** el HTML es el plano. El DOM es el edificio construido.
+
+### Seleccionar
+
+```javascript
+const titulo = document.querySelector("h1");
+const grid = document.querySelector("#expediciones");
+const tarjetas = document.querySelectorAll(".tarjeta");
+```
+
+Usa **los mismos selectores de CSS** que ya conoces.
+
+> ⚠ `querySelectorAll` devuelve una `NodeList`, no un array. Tiene `forEach`
+> pero **no `map`, `filter` ni `reduce`**.
+> Solución: `[...document.querySelectorAll(".tarjeta")]`
+>
+> ⚠ `querySelector` devuelve `null` si no encuentra nada. Comprueba antes de
+> usar, o revienta con `TypeError`.
+
+### Modificar contenido
+
+```javascript
+elemento.textContent = "texto plano";      // seguro
+elemento.innerHTML = "<b>html</b>";        // interpreta HTML
+```
+
+> ⚠ **`innerHTML` con datos de usuario permite inyectar código (XSS).**
+> Regla: `textContent` para texto, `innerHTML` solo con HTML que construyes tú.
+
+### Crear elementos
+
+```javascript
+const articulo = document.createElement("article");
+articulo.className = "tarjeta";
+articulo.textContent = exp.nombre;
+contenedor.append(articulo);
+```
+
+### Eventos
+
+```javascript
+boton.addEventListener("click", (evento) => { ... });
+```
+
+```
+click     un clic
+submit    envío de formulario
+input     en cada tecla
+change    al cambiar y perder el foco
+```
+
+### Formularios
+
+```javascript
+formulario.addEventListener("submit", (evento) => {
+  evento.preventDefault();
+  const datos = new FormData(formulario);
+  const nombre = datos.get("nombre");
+});
+```
+
+> ⚠ **Sin `preventDefault()` la página se recarga** y pierdes todo.
+>
+> ⚠ `FormData` lee por el atributo `name`, **no por `id`**. Un input sin
+> `name` devuelve `null`.
+
+### Delegación de eventos
+
+Para elementos creados dinámicamente, escucha en el contenedor:
+
+```javascript
+contenedor.addEventListener("click", (evento) => {
+  const boton = evento.target.closest("button");
+  if (!boton) return;
+  console.log(boton.dataset.id);
+});
+```
+
+```
+evento.target    el elemento exacto donde ocurrió
+.closest("...")  sube buscando el ancestro que coincida
+dataset.id       lee el atributo data-id="..."
+```
+
+**Por qué funciona:** los eventos burbujean hacia arriba. Escuchas en el
+padre y averiguas dónde ocurrió.
+
+### Cuándo NO manipular el DOM a mano
+
+```
+✗ Interfaces con mucho estado cambiante → eso lo resuelve React
+✗ Reconstruir todo el HTML en cada cambio → con 800 elementos se congela
+```
+
+Lo aprendes igual porque en la Semana 10 React hará esto por ti, y solo se
+aprecia lo que te ahorra si lo hiciste una vez a mano.
+
+---
+
 *Cheat Sheet Semana 08 — HTML y CSS*
 *Leer antes de los ejercicios — consultar durante la semana*

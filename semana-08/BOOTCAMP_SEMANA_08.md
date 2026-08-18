@@ -830,6 +830,382 @@ Footer:
 
 ---
 
+---
+
+## 🗓 DÍA 7 — EL DOM: CONECTAR DATOS CON PANTALLA
+
+> **Día añadido en la auditoría del 2026-08-06.**
+> Detectado como hueco de cobertura: la manipulación del DOM no se enseñaba
+> en ninguna semana, y PS-3 y React la dan por sabida.
+
+### 🎯 Objetivo
+Hacer que la página que construiste ayer responda: generar contenido desde
+datos y reaccionar a lo que hace el usuario.
+
+---
+
+### 📖 El problema real
+
+Abre tu NexusLanding de ayer. Es una buena página. Y está muerta.
+
+```
+Las tarjetas de expedición están escritas a mano en el HTML.
+Si mañana hay 12 expediciones, copias y pegas 12 veces.
+
+El botón "Ver detalles" no hace nada.
+
+El formulario valida el formato del correo — eso lo hace el navegador —
+pero al enviarlo la página se recarga y no pasa nada más.
+```
+
+Tienes datos en JavaScript desde la Semana 3. Tienes una página desde ayer.
+**No hay puente entre las dos cosas.**
+
+---
+
+### 📖 ¿Cómo lo resolverías con lo que ya sabes?
+
+Sabes generar strings con datos. Podrías construir el HTML como texto:
+
+```javascript
+const html = `<article class="tarjeta"><h3>${exp.nombre}</h3></article>`;
+```
+
+Y ahí te quedas. Tienes el string. No hay forma de meterlo en la página.
+
+Falta la pieza que conecta: **el DOM**.
+
+---
+
+### 📖 Qué es el DOM
+
+Cuando el navegador carga tu HTML, no se queda con el texto. Construye un
+**árbol de objetos en memoria** que representa cada etiqueta.
+
+```
+document
+└── html
+    ├── head
+    └── body
+        ├── header
+        │   └── nav
+        └── main
+            └── section#expediciones
+                └── article.tarjeta
+```
+
+Ese árbol es el DOM — *Document Object Model*. Y es un objeto de JavaScript
+como cualquier otro: puedes leerlo y modificarlo.
+
+> **La idea clave:** el HTML es el plano inicial. El DOM es el edificio
+> construido. Modificar el DOM cambia lo que se ve, sin tocar el archivo.
+
+---
+
+### 📖 Seleccionar elementos
+
+```javascript
+const titulo = document.querySelector("h1");
+const contenedor = document.querySelector("#expediciones");
+const tarjetas = document.querySelectorAll(".tarjeta");
+```
+
+`querySelector` usa **los mismos selectores de CSS** que aprendiste el Día 2.
+`#id`, `.clase`, `etiqueta`, `.padre .hijo` — todos funcionan igual.
+
+```
+querySelector      →  el PRIMER elemento que coincide, o null
+querySelectorAll   →  TODOS los que coinciden, en una NodeList
+```
+
+> ⚠ **Trampa:** `querySelectorAll` no devuelve un array. Devuelve una
+> `NodeList`, que tiene `forEach` pero **no tiene `map`, `filter` ni
+> `reduce`**.
+>
+> Para usar tus métodos de array: `[...document.querySelectorAll(".tarjeta")]`
+> El spread de la Semana 5, resolviendo un problema real.
+
+> ⚠ **Segunda trampa:** si el selector no encuentra nada, `querySelector`
+> devuelve `null`. Y `null.textContent` lanza `TypeError`. Es el mismo caso
+> que `find` devolviendo `undefined` — un centinela que hay que comprobar.
+
+---
+
+### 📖 Modificar contenido
+
+```javascript
+titulo.textContent = "Expediciones 2026";        // texto plano
+contenedor.innerHTML = "<p>Cargando...</p>";     // interpreta HTML
+```
+
+**La diferencia importa y no es de estilo:**
+
+```javascript
+const nombre = "<script>alert('hola')</script>";
+
+elemento.textContent = nombre;   // muestra el texto tal cual, seguro
+elemento.innerHTML = nombre;     // INTERPRETA el HTML — peligroso
+```
+
+Si el contenido viene de un usuario, `innerHTML` permite inyectar código.
+Se llama **XSS** (Cross-Site Scripting).
+
+**La regla:** `textContent` para texto. `innerHTML` solo con HTML que
+construyes tú, nunca con datos de terceros.
+
+---
+
+### 📖 Crear elementos desde datos
+
+Aquí está lo que resuelve el problema de las tarjetas copiadas a mano:
+
+```javascript
+const expediciones = [
+  { id: "EXP001", nombre: "Cruce Los Andes", precioBase: 280000 },
+  { id: "EXP003", nombre: "Torres del Paine", precioBase: 450000 }
+];
+
+const contenedor = document.querySelector("#expediciones");
+
+expediciones.forEach((exp) => {
+  const articulo = document.createElement("article");
+  articulo.className = "tarjeta";
+
+  const titulo = document.createElement("h3");
+  titulo.textContent = exp.nombre;
+
+  const precio = document.createElement("p");
+  precio.textContent = `$${exp.precioBase.toLocaleString("es-CL")}`;
+
+  articulo.append(titulo, precio);
+  contenedor.append(articulo);
+});
+```
+
+**Ocho expediciones, ocho tarjetas, sin copiar nada.** El HTML deja de ser
+una lista escrita a mano y pasa a ser el resultado de tus datos.
+
+Es la primera vez que tu lógica de JavaScript produce algo visible. Todo lo
+que hiciste hasta ahora vivía en la consola.
+
+---
+
+### 📖 Escuchar eventos
+
+```javascript
+const boton = document.querySelector("#ver-detalles");
+
+boton.addEventListener("click", (evento) => {
+  console.log("clic");
+});
+```
+
+`addEventListener` recibe el nombre del evento y una función que se ejecuta
+cuando ocurre. Esa función es un **callback** — lo mismo que le pasas a
+`filter` o a `map`, solo que aquí lo llama el navegador.
+
+**Los eventos que vas a usar:**
+
+```
+click     un clic
+submit    envío de formulario
+input     el usuario escribe (en cada tecla)
+change    el valor cambió y perdió el foco
+```
+
+---
+
+### 📖 El formulario — y `preventDefault`
+
+```javascript
+const formulario = document.querySelector("#contacto");
+
+formulario.addEventListener("submit", (evento) => {
+  evento.preventDefault();
+
+  const datos = new FormData(formulario);
+  const nombre = datos.get("nombre");
+  const correo = datos.get("correo");
+
+  console.log({ nombre, correo });
+});
+```
+
+**Sin `preventDefault()` la página se recarga** y pierdes todo. Es el
+comportamiento por defecto del navegador desde antes de que existiera
+JavaScript: enviar el formulario al servidor y navegar.
+
+Prueba a quitarlo. Verás la página parpadear y tu `console.log` desaparecer.
+
+> ⚠ **Trampa:** `FormData` lee los campos por su atributo `name`, no por
+> `id`. Si tu input tiene `id="nombre"` pero no `name="nombre"`,
+> `datos.get("nombre")` devuelve `null`.
+>
+> Revisa tu formulario de ayer: es un error muy fácil de cometer.
+
+---
+
+### 📖 Delegación de eventos
+
+Un problema que aparece en cuanto generas elementos desde datos:
+
+```javascript
+// ❌ No funciona para las tarjetas creadas DESPUÉS
+document.querySelectorAll(".tarjeta button").forEach((b) => {
+  b.addEventListener("click", manejar);
+});
+```
+
+Si generas las tarjetas después de registrar los listeners, esas tarjetas no
+tienen listener. Y registrar uno por tarjeta es trabajo repetido.
+
+**La solución:** escuchar en el contenedor, que sí existe siempre.
+
+```javascript
+contenedor.addEventListener("click", (evento) => {
+  const boton = evento.target.closest("button");
+  if (!boton) return;
+
+  const id = boton.dataset.id;
+  console.log("Ver detalles de", id);
+});
+```
+
+**Cómo funciona:** los eventos *burbujean*. Un clic en el botón también se
+dispara en su padre, y en el padre de su padre, hasta `document`. Así que
+puedes escuchar arriba y averiguar abajo dónde ocurrió.
+
+```
+evento.target   →  el elemento exacto donde ocurrió
+.closest("...")  →  sube buscando el ancestro que coincida
+dataset.id       →  lee el atributo data-id="EXP001"
+```
+
+Los atributos `data-*` son HTML estándar para guardar datos en un elemento:
+
+```html
+<button data-id="EXP001">Ver detalles</button>
+```
+
+---
+
+### 📖 Cuándo NO manipular el DOM a mano
+
+Honestidad sobre lo que estás aprendiendo:
+
+```
+✗ Cuando la interfaz tiene mucho estado que cambia
+  Mantener el DOM sincronizado con los datos a mano se vuelve
+  inmanejable rápido. Ese es el problema que React resuelve.
+
+✗ Cuando reconstruyes todo el HTML en cada cambio
+  Funciona con 8 tarjetas. Con 800 la página se congela.
+```
+
+**Por qué lo aprendes igual:** en la Semana 10, React hace todo esto por ti.
+Si nunca lo hiciste a mano, React es magia. Si lo hiciste, React es
+*"ah, me está ahorrando exactamente esto"*.
+
+Y hay casos donde seguirás necesitándolo: enfocar un input, hacer scroll,
+medir un elemento, integrar una librería que no sabe de React.
+
+---
+
+### 📖 Mini-ejercicio de comprensión
+
+```javascript
+const tarjetas = document.querySelectorAll(".tarjeta");
+const nombres = tarjetas.map((t) => t.textContent);
+```
+
+Esto lanza `TypeError: tarjetas.map is not a function`.
+
+¿Por qué, y cuáles son las dos formas de arreglarlo?
+
+---
+
+### 🔗 Conexión con React
+
+Cuando escribas esto en la Semana 10:
+
+```jsx
+{expediciones.map((exp) => <Tarjeta key={exp.id} {...exp} />)}
+```
+
+React hará por debajo el `createElement`, el `append` y la sincronización que
+acabas de hacer a mano. La diferencia es que tú describes **qué quieres ver**
+y React se encarga del **cómo**.
+
+Ese contraste solo se aprecia si hiciste el "cómo" al menos una vez.
+
+---
+
+### 🛠 EJERCICIOS DÍA 7
+
+**Ejercicio 1** — `dia07/tarjetas-dinamicas.js`
+
+Toma tu NexusLanding y **borra las tres tarjetas del HTML**. Genéralas desde
+un array de 8 expediciones con `createElement`.
+
+El resultado visual debe ser idéntico al de ayer, con cinco tarjetas más.
+
+**Ejercicio 2** — el formulario que responde
+
+Haz que el formulario de contacto, al enviarse:
+- No recargue la página
+- Lea los cuatro campos con `FormData`
+- Muestre un mensaje de éxito en la propia página, no en la consola
+- Limpie los campos
+
+Verifica que todos tus inputs tienen atributo `name`.
+
+**Ejercicio 3** — filtro en vivo
+
+Agrega un `<input type="text">` sobre el grid. Al escribir, muestra solo las
+expediciones cuyo nombre coincida.
+
+Usa el evento `input`, no `change`. Después prueba con `change` y documenta
+la diferencia en un comentario.
+
+**Ejercicio 4** — delegación
+
+Haz que los botones "Ver detalles" muestren el id de su expedición, con **un
+solo** `addEventListener` en el contenedor.
+
+Después agrega una tarjeta nueva dinámicamente y comprueba que su botón
+también funciona sin registrar nada.
+
+**Ejercicio 5** — juzga este código
+
+```javascript
+const buscador = document.querySelector("#buscar");
+
+buscador.addEventListener("input", (e) => {
+  const texto = e.target.value;
+  contenedor.innerHTML = "";
+  expediciones
+    .filter((exp) => exp.nombre.includes(texto))
+    .forEach((exp) => {
+      contenedor.innerHTML += `<article class="tarjeta">
+        <h3>${exp.nombre}</h3>
+      </article>`;
+    });
+});
+```
+
+Funciona. Tiene **tres** problemas: uno de seguridad, uno de rendimiento y
+uno de comportamiento con las mayúsculas.
+
+Encuéntralos y reescríbelo.
+
+> Pista para el de rendimiento: mira dónde está el `+=`.
+
+---
+
+**Cuando termines avísame — valido el Día 7.** ✅
+
+---
+
 ## 🗂 ARCHIVOS A ENTREGAR
 
 ```
@@ -853,9 +1229,13 @@ Footer:
 │   ├── responsive.css
 │   ├── formulario.html
 │   └── formulario.css
-└── proyecto/ ⭐
-    ├── index.html
-    └── estilos.css
+├── proyecto/ ⭐
+│   ├── index.html
+│   └── estilos.css
+└── dia07/
+    ├── tarjetas-dinamicas.js
+    ├── formulario.js
+    └── index.html
 ```
 
 ---

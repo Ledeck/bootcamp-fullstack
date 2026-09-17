@@ -40,6 +40,8 @@ const realizarPago = async (numeroTarjeta, monto) => {
     }
     return null;
   } finally {
-    console.log("Proceso pago finalizado");
+    console.log("Proceso de pago finalizado");
   }
 };
+
+realizarPago("1234567890123456", 100000);

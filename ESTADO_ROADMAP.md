@@ -62,8 +62,8 @@ PS-3 · tras Semana 09 · Nexus Mirador · ✅ GENERADO 2026-08-06
        Primer proyecto con interfaz visible. API real: Open-Meteo.
        Archivo: PROYECTO_INTEGRADOR_PS3.md
 
-PS-4 · tras Semana 16 · ⧗ pendiente de generar
-       Competencia prevista: EL SISTEMA TIENE VARIOS DUEÑOS
+PS-4 · tras Semana 17 · ✅ GENERADO 2026-08-06
+       Competencia: EL SISTEMA TIENE VARIOS DUEÑOS
        Propiedad del dato, permisos por rol, y concurrencia.
        Cierra un cabo suelto declarado: el Día 4 de la Semana 14 plantea
        dos usuarios reservando el último cupo y deja las transacciones
@@ -76,8 +76,10 @@ periodos largos sin síntesis. NO es una cota exacta.
 
 **Manda el punto de convergencia más redondo, no el calendario.**
 
-Aplicación: PS-4 va tras la Semana 16 —siete semanas después de PS-3— en
-vez de tras la 14. La diferencia no es de cantidad sino de naturaleza:
+Aplicación: PS-4 va tras la Semana 17 —ocho semanas después de PS-3— en
+vez de tras la 14. Se movió de la 16 a la 17 al generar Zod: un proyecto
+sobre varios dueños que además valide bien lo que cada uno envía es más
+redondo que uno que valide a mano. La diferencia no es de cantidad sino de naturaleza:
 tras la 14 el sistema es completo pero de UN SOLO usuario; tras la 16
 tiene varios dueños, y eso habilita una clase de problema que ningún
 proyecto anterior podía plantear.
@@ -143,8 +145,8 @@ Semana 13 — Tailwind + shadcn/ui      ✅ generada + @theme inline corregido
 Semana 14 — Prisma + PostgreSQL       ✅ generada (Prisma 7)
 Semana 15 — Generación de PDF         ⚠ generada · Fase 1 PARCIAL
 Semana 16 — Autenticación (Clerk)     ✅ generada + Fase 6c desde el diseño
-Semana 17 — ⧗ sin tema. Candidatos: Zod + React Hook Form (recomendado),
-             Zustand, Testing, Despliegue en Vercel
+Semana 17 — Validación con Zod        ✅ generada + Fase 6c desde el diseño
+Semana 18 — ⧗ sin tema. Candidato recomendado: Despliegue en Vercel
 ```
 
 **Secuencia verificada documento por documento (Fase 0 cerrada):**

@@ -13,6 +13,8 @@ Fase 1 — fuentes: documentación de React 19 sobre Context como provider y
          el hook use(), consultadas en julio 2026
 Bloque perecedero: mínimo — no hay setup nuevo. Ver nota de versión.
 Constitución aplicada: v1.3 (enmiendas 1-10)
+PARCHE 2026-08-06: referencias a PS-4 eliminadas. La Enmienda 16 degradó
+                   PS-4 al proyecto del Día 6 de la Semana 10
 ```
 
 ---
@@ -47,7 +49,8 @@ Lo que cambia es cómo está organizada por dentro. Eso puede sentirse poco
 gratificante los primeros días. La recompensa llega en el proyecto del Día 6,
 cuando agregar un módulo entero cueste una fracción de lo que costaría sin esto.
 
-**Prerrequisito real:** haber completado PS-4. Esta semana resuelve dolores que
+**Prerrequisito real:** haber completado el proyecto del Día 6 de la Semana 10
+(el dashboard con escritura de datos). Esta semana resuelve dolores que
 solo aparecen cuando la aplicación ya escribe datos y tiene más de una vista. Sin
 ese dolor previo, las soluciones de esta semana parecen complicaciones
 innecesarias.
@@ -465,7 +468,8 @@ como `React.ReactNode`. Reorganiza el dashboard para usarlo.
 **Ejercicio 2** — elimina el drilling
 
 Toma la cadena de prop drilling más larga que tengas en tu proyecto después de
-PS-4 y elimínala con composición. Anota en un comentario cuántos componentes
+el proyecto de la Semana 10 y elimínala con composición. Anota en un comentario
+cuántos componentes
 dejaron de recibir props que no usaban.
 
 **Ejercicio 3** — `src/componentes/PanelPlegable.tsx`
@@ -503,7 +507,8 @@ Concentrar en un solo lugar las transiciones de un estado con varias piezas.
 
 ### 📖 El problema real
 
-El formulario de reserva que construiste en PS-4 tiene que manejar: los datos que
+El formulario de reserva que construiste en el proyecto de la Semana 10 tiene que
+manejar: los datos que
 el usuario escribe, si se está enviando, si hubo un error, y si se completó con
 éxito.
 
@@ -734,7 +739,7 @@ lo hace obvio.
 
 **Ejercicio 1** — migrar el formulario
 
-Convierte el `FormularioReserva` de la Semana 10 / PS-4 de `useState` múltiple a
+Convierte el `FormularioReserva` de la Semana 10 de `useState` múltiple a
 `useReducer`. El reductor va en su propio archivo, fuera del componente.
 
 **Ejercicio 2** — `src/logica/reductorReservas.ts`

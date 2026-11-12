@@ -1,4 +1,5 @@
 import { cargarDashboard, obtenerReporteGuia } from "./nexus.js";
+import { listarCache } from "./cache.js";
 
 const dashboard = await cargarDashboard();
 
@@ -10,6 +11,8 @@ const guia = await obtenerReporteGuia(1);
 
 const nombre = guia.datosGuia.name;
 const reportes = guia.reportesGuia.length;
+
+const listaUrlActivas = await listarCache();
 
 console.log(
   `=== NEXUS DATA — REPORTE DEL SISTEMA ===
@@ -24,8 +27,7 @@ console.log(
    Reportes: ${reportes}
 
 💾 Estado de caché:
-   Entradas activas: 
-   [lista de URLs en caché con tiempo restante]
-
+   Entradas activas: ${listaUrlActivas.length}
+   ${listaUrlActivas}
 `
 );

@@ -1,4 +1,4 @@
-import { obtenerConCache } from "./cliente.js";
+import { obtenerConCache } from "./clientes.js";
 
 export async function cargarDashboard() {
   const [guias, reportes, todos] = await Promise.all([

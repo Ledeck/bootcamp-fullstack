@@ -8,11 +8,15 @@ export function guardarEnCache(clave, datos, ttlSegundos) {
 
 export function obtenerDeCache(clave) {
   const entrada = cache.get(clave);
+
   if (entrada === undefined) {
     return null;
+  } else if (entrada.expiracion > Date.now()) {
+    return entrada.datos;
   }
 
-  return entrada.datos;
+  cache.delete(clave);
+  return null;
 }
 
 export function invalidarCache(clave) {
